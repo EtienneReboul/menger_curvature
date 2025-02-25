@@ -28,7 +28,8 @@ See Also
 MDAnalysis.analysis.base.AnalysisBase : Base class for analysis
 
 References
-.. [1] Lewiner, T., Gomes Jr, J., Lopes, H., & Craizer, M. (2005). 
+----------
+[1] Lewiner, T., Gomes Jr, J., Lopes, H., & Craizer, M. (2005). 
        Curvature and torsion estimators based on parametric curve fitting. 
        Computers & Graphics, 29(5), 641-655.
 
@@ -42,6 +43,49 @@ from numba import njit
 if TYPE_CHECKING:
     from MDAnalysis.core.universe import Universe, AtomGroup
 
+
+def compute_triangle_edges(frame: np.ndarray, i : int , spacing : int) -> np.ndarray:
+    """
+    Calculate the norm of the edges of a triangle given its vertices.
+
+    Args:
+        vertices (numpy.ndarray): Array of shape (3, 3) containing the coordinates of the vertices.
+
+    Returns:
+        numpy.ndarray: Array of shape (3,) containing the norm of the edges.
+    """
+
+    edges_norm = np.zeros(3)
+    vertices = np.zeros((3, 3))
+
+    # Get the coordinates of the vertices of the triangle
+    vertices[0] = frame[i]
+    vertices[1] = frame[i+spacing]
+    vertices[2] = frame[i+2*spacing]
+
+
+    edges_norm[0] = np.linalg.norm(vertices[0] - vertices[1])
+    edges_norm[1] = np.linalg.norm(vertices[1] - vertices[2])
+    edges_norm[2] = np.linalg.norm(vertices[2] - vertices[0])
+
+    return edges_norm
+
+def compute_triangle_area(edges_norm: np.ndarray) -> float:
+    """
+    Calculate the area of a triangle given the norm of its edges.
+
+    Args:
+        edges_norm (numpy.ndarray): Array of shape (3,) containing the norm of the edges.
+
+    Returns:
+        float: Area of the triangle.
+    """
+
+    semi_perimeter = np.sum(edges_norm) / 2  # Heron's formula
+    triangle_area = np.sqrt(
+        semi_perimeter * np.prod(semi_perimeter - edges_norm))
+
+    return triangle_area
 
 @njit()
 def menger_curvature(frame: np.ndarray, spacing: int) -> np.ndarray:
@@ -62,24 +106,11 @@ def menger_curvature(frame: np.ndarray, spacing: int) -> np.ndarray:
     # Loop over residues
     for i in range(frame_curvature.shape[0]):
 
-        # loop variables
-        vertices = np.zeros((3, 3))
-        edges_norm = np.zeros(3)
-
-        # Get the coordinates of the vertices of the triangle
-        vertices[0] = frame[i]
-        vertices[1] = frame[i+spacing]
-        vertices[2] = frame[i+2*spacing]
-
-        # Calculate the norm of the edges
-        edges_norm[0] = np.linalg.norm(vertices[0] - vertices[1])
-        edges_norm[1] = np.linalg.norm(vertices[1] - vertices[2])
-        edges_norm[2] = np.linalg.norm(vertices[2] - vertices[0])
+        # Calculate the norm of the edges of the triangle
+        edges_norm = compute_triangle_edges(frame, i, spacing)
 
         # Calculate the area of the triangle
-        semi_perimeter = np.sum(edges_norm) / 2  # Heron's formula
-        triangle_area = np.sqrt(
-            semi_perimeter * np.prod(semi_perimeter - edges_norm))
+        triangle_area = compute_triangle_area(edges_norm)
 
         # Calculate the Menger curvature
         frame_curvature[i] = 4 * triangle_area / np.prod(edges_norm)
@@ -146,7 +177,7 @@ class MengerCurvature(AnalysisBase):
     while the local flexibility indicates the range of curvatures available to the triplet.
     Within the context of the proteic backbone, points would usually correspond to C-alpha carbons
     """
-    menger_curvature = None
+    is_compile_numba = False
 
     def __init__(
         self,
@@ -164,12 +195,11 @@ class MengerCurvature(AnalysisBase):
         # https://docs.mdanalysis.org/stable/documentation_pages/analysis/base.html?highlight=results#MDAnalysis.analysis.base.Results
 
         # compile the numba function if it hasn't been compiled yet
-        if MengerCurvature.menger_curvature is None:
-            MengerCurvature.menger_curvature = menger_curvature
-            MengerCurvature.menger_curvature(
-                frame= np.array([[13.31, 34.22, 34.36],
+        if self.is_compile_numba:
+            _ = menger_curvature(
+                frame=np.array([[13.31, 34.22, 34.36],
                                 [16.89, 33.47, 35.28],
-                                [20.4 , 34.65, 34.76],
+                                [20.4, 34.65, 34.76],
                                 [23.99, 33.21, 34.96],
                                 [27.52, 34.44, 34.73],
                                 [31.27, 33.34, 35.16],
@@ -177,12 +207,12 @@ class MengerCurvature(AnalysisBase):
                                 [38.57, 33.49, 35.07],
                                 [42.11, 34.67, 34.64],
                                 [45.72, 33.37, 34.84],
-                                [49.49, 34.3 , 34.62],
+                                [49.49, 34.3, 34.62],
                                 [53.24, 33.33, 34.85],
                                 [56.58, 35.18, 34.74]],
-                                dtype=np.float32),
+                               dtype=np.float32),
                 spacing=2)
-
+            self.is_compile_numba = True
 
         self.universe = universe_or_atomgroup.universe
         self.atomgroup = universe_or_atomgroup.select_atoms(select)
@@ -190,7 +220,7 @@ class MengerCurvature(AnalysisBase):
 
         if spacing < 1:
             raise ValueError("Spacing must be at least 1")
-        elif 2*spacing >= self.atomgroup.n_atoms-1:
+        if 2*spacing >= self.atomgroup.n_atoms-1:
             raise ValueError("Spacing is too large for the number of atoms")
 
     def _prepare(self):
@@ -207,8 +237,10 @@ class MengerCurvature(AnalysisBase):
             # enough even with mean and standard deviation porbably float16
             # would work too
         )
-        self.results.local_curvatures = np.zeros(self.atomgroup.n_atoms - 2*self.spacing)
-        self.results.local_flexibilities = np.zeros(self.atomgroup.n_atoms - 2*self.spacing)
+        self.results.local_curvatures = np.zeros(
+            self.atomgroup.n_atoms - 2*self.spacing)
+        self.results.local_flexibilities = np.zeros(
+            self.atomgroup.n_atoms - 2*self.spacing)
 
     def _single_frame(self):
         """Calculate data from a single frame of trajectory"""
@@ -223,9 +255,8 @@ class MengerCurvature(AnalysisBase):
         # self.results.menger_array[self._frame_index] = menger_curvature(
         #    coords, self.spacing)
 
-        self.results.menger_array[self._frame_index] = MengerCurvature.menger_curvature(
+        self.results.menger_array[self._frame_index] = menger_curvature(
             coords, self.spacing)
-
 
     def _conclude(self):
         """Calculate the final results of the analysis"""

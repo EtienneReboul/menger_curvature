@@ -43,7 +43,7 @@ from numba import njit
 if TYPE_CHECKING:
     from MDAnalysis.core.universe import Universe, AtomGroup
 
-
+@njit()
 def compute_triangle_edges(frame: np.ndarray, i : int , spacing : int) -> np.ndarray:
     """
     Calculate the norm of the edges of a triangle given its vertices.
@@ -70,6 +70,7 @@ def compute_triangle_edges(frame: np.ndarray, i : int , spacing : int) -> np.nda
 
     return edges_norm
 
+@njit()
 def compute_triangle_area(edges_norm: np.ndarray) -> float:
     """
     Calculate the area of a triangle given the norm of its edges.

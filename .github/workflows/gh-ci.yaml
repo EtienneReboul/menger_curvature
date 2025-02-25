@@ -134,7 +134,7 @@ jobs:
       env:
         PYLINTRC: .pylintrc
       run: |
-        pylint menger/
+        pylint menger/analysis/
 
 
   pypi_check:

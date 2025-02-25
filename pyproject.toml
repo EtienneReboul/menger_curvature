@@ -18,7 +18,7 @@ maintainers = [
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
-    "MDAnalysis>=2.0.0",
+    "MDAnalysis>=2.0.0","numba>=0.60.0"
 ]
 keywords = [
     "molecular simulations",

@@ -2,9 +2,8 @@
 
 Menger_Curvature was created by LBT in 2025.
 
-
 All contributing authors are listed in this file below.
-The repository history at https://github.com/EtienneReboul/menger_curvature
+The repository history at <https://github.com/EtienneReboul/menger_curvature>
 and the CHANGELOG show individual code contributions.
 
 ## Chronological list of authors
@@ -19,5 +18,6 @@ The rules for this file:
   * Don't ever delete anything
 -->
 
-**2025**
+### 2025
+
 - LBT <@EtienneReboul>

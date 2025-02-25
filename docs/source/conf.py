@@ -185,7 +185,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, "menger_curvature", "Menger_Curvature Documentation",
-     author, "menger_curvature", ""This project aims to provide a simple MDAkit for JIT accelerated Menger curvature calculation"",
+     author, "menger_curvature", "This project aims to provide a simple MDAkit for JIT accelerated Menger curvature calculation",
      "Miscellaneous"),
 ]
 

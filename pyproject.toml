@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "menger_curvature"
-description = ""This project aims to provide a simple MDAkit for JIT accelerated Menger curvature calculation""
+description = "This project aims to provide a simple MDAkit for JIT accelerated Menger curvature calculation"
 license = {file = "LICENSE" }
 authors = [
     {name = "LBT", email = "reboul@ibpc.fr"},

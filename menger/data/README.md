@@ -1,17 +1,16 @@
 # Sample Package Data
 
-This directory contains sample additional data you may want to include with your package.
-This is a place where non-code related additional information (such as data files, molecular structures,  etc.) can 
-go that you want to ship alongside your code.
+This project uses simulation data from the Zenodo repository of the article ["Impact of multiple phosphorylations on the tau-R2/tubulin interface"](https://doi.org/10.1101/2025.02.19.638976) by Jules Marien, Chantal Prévost and Sophie Sacquin-Mora.
 
-Please note that it is not recommended to place large files in your git directory. If your project requires files larger
-than a few megabytes in size it is recommended to host these files elsewhere. This is especially true for binary files
-as the `git` structure is unable to correctly take updates to these files and will store a complete copy of every version
-in your `git` history which can quickly add up. As a note most `git` hosting services like GitHub have a 1 GB per repository
-cap.
+## Data Files
 
-## Including package data
+- `tubulin_chain_A.pdb`
+- `tubulin_chain_A.dcd`
 
-Modify your package's `setup.py` file and the `setup()` command. Include the 
-[`package_data`](http://setuptools.readthedocs.io/en/latest/setuptools.html#basic-use) keyword and point it at the 
-correct files.
+**Note:** Only the last 100 ns of simulation data were retained to minimize test data volume.
+
+## Reference
+
+> Marien J, Prevost C, Sacquin-Mora S. Impact of multiple phosphorylations on the tau-R2/tubulin interface. *bioRxiv* 2025.02.19.638976; [doi:10.1101/2025.02.19.638976](https://doi.org/10.1101/2025.02.19.638976)
+
+Data source: [Zenodo Repository](https://zenodo.org/records/14888178)

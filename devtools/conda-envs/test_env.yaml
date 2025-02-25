@@ -10,6 +10,9 @@ dependencies:
   # MDAnalysis
   - MDAnalysis
 
+  # numba
+  - numba
+
   # Testing
   - pytest
   - pytest-cov

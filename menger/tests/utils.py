@@ -1,77 +1,66 @@
-from typing import Tuple
+"""This module provides utility functions for creating test universes in MDAnalysis.
 
+
+The module contains functions to create Universe objects for testing purposes,
+particularly focused on tubulin structures and dummy reference universes.
+
+Functions
+---------
+make_tubulin_monomer_universe()
+  Creates an MDAnalysis Universe containing a tubulin monomer structure
+retrieve_results(name, spacing, metrics)
+  Retrieves stored Menger curvature analysis results from a file
+
+Notes
+-----
+This module is intended to be used in testing and development of the Menger curvature
+analysis module in MDAnalysis.
+
+"""
+
+# Standard library imports
+import os
+
+# Third party imports
 import MDAnalysis as mda
-from MDAnalysis.coordinates.memory import MemoryReader
 import numpy as np
 
+# package imports
+from menger.data import files
 
-def make_Universe(
-    extras: Tuple[str] = tuple(),
-    size: Tuple[int, int, int] = (125, 25, 5),
-    n_frames: int = 0,
-    velocities: bool = False,
-    forces: bool = False
-) -> mda.Universe:
-    """Make a dummy reference Universe
-
-    Allows the construction of arbitrary-sized Universes. Suitable for
-    the generation of structures for output.
-
-    Preferable for testing core components because:
-      * minimises dependencies within the package
-      * very fast compared to a "real" Universe
-
-    Parameters
-    ----------
-    extras : tuple of strings, optional
-      extra attributes to add to Universe:
-      u = make_Universe(('masses', 'charges'))
-      Creates a lightweight Universe with only masses and charges.
-    size : tuple of int, optional
-      number of elements of the Universe (n_atoms, n_residues, n_segments)
-    n_frames : int
-      If positive, create a fake Reader object attached to Universe
-    velocities : bool, optional
-      if the fake Reader provides velocities
-    force : bool, optional
-      if the fake Reader provides forces
+def make_tubulin_monomer_universe():
+    """Make a Universe with a tubulin monomer structure
 
     Returns
     -------
     MDAnalysis.core.universe.Universe object
-
     """
+    return mda.Universe(files.TUBULIN_CHAIN_A_PDB, files.TUBULIN_CHAIN_A_DCD)
 
-    n_atoms, n_residues, n_segments = size
-    trajectory = n_frames > 0
-    u = mda.Universe.empty(
-        # topology things
-        n_atoms=n_atoms,
-        n_residues=n_residues,
-        n_segments=n_segments,
-        atom_resindex=np.repeat(
-            np.arange(n_residues), n_atoms // n_residues),
-        residue_segindex=np.repeat(
-            np.arange(n_segments), n_residues // n_segments),
-        # trajectory things
-        trajectory=trajectory,
-        velocities=velocities,
-        forces=forces,
-    )
-    if extras is None:
-        extras = []
-    for ex in extras:
-        u.add_TopologyAttr(ex)
+def retrieve_results( name : str, spacing : int, metrics : str ,segid : str = None ) -> np.ndarray:
+    """Retrieve the results of the Menger curvature analysis from a file
 
-    if trajectory:
-        pos = np.arange(3 * n_atoms * n_frames).reshape(n_frames, n_atoms, 3)
-        vel = pos + 100 if velocities else None
-        fcs = pos + 10000 if forces else None
-        reader = MemoryReader(
-            pos,
-            velocities=vel,
-            forces=fcs,
-        )
-        u.trajectory = reader
+    Parameters
+    ----------
+    name : str
+        The name of the file to retrieve the results from
+    spacing : int
+        The spacing used in the analysis
+    n_frames : int
+        The number of frames in the trajectory
 
-    return u
+    Returns
+    -------
+    np.ndarray
+        The results of the analysis
+    """
+    if not segid:
+        path= os.path.join(
+                files.TEST_DATA_DIR,
+                f"{name}_spacing_{spacing}_{metrics}.npy")
+    else:
+        path= os.path.join(
+                files.TEST_DATA_DIR,
+                f"{name}_spacing_{spacing}_segid_{segid}_{metrics}.npy")
+    return np.load(path)
+        

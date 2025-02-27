@@ -14,3 +14,7 @@ comment:
   paths: null
 ignore:
   - "menger_curvature/_version.py"
+# Add env section for coverage runs
+env:
+  global:
+    - NUMBA_DISABLE_JIT=1  # Disable JIT only during coverage testing

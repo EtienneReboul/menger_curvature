@@ -29,9 +29,12 @@ MDAnalysis.analysis.base.AnalysisBase : Base class for analysis
 
 References
 ----------
-[1] Lewiner, T., Gomes Jr, J., Lopes, H., & Craizer, M. (2005). 
-       Curvature and torsion estimators based on parametric curve fitting. 
-       Computers & Graphics, 29(5), 641-655.
+[1]Menger, Karl. Géométrie générale. 1954. <http://eudml.org/doc/192644>.
+[2] J. C. Léger. Menger Curvature and Rectifiability. Annals of Mathematics. 
+    1999, 149, 831– 869, DOI: 10.2307/121074
+[3]Marien J, Prévost C, Sacquin-Mora S. nP-Collabs: Investigating Counterion-Mediated 
+    Bridges in the Multiply Phosphorylated Tau-R2 Repeat.J Chem Inf Model. 
+    2024 Aug 26;64(16):6570-6582. doi: 10.1021/acs.jcim.4c00742
 
 """
 from typing import Union, TYPE_CHECKING

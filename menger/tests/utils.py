@@ -28,16 +28,31 @@ import numpy as np
 # package imports
 from menger.data import files
 
-def make_tubulin_monomer_universe():
+def make_universe(topology_name : str , trajectory_name : str ) -> mda.Universe:
     """Make a Universe with a tubulin monomer structure
 
     Returns
     -------
     MDAnalysis.core.universe.Universe object
     """
-    return mda.Universe(files.TUBULIN_CHAIN_A_PDB, files.TUBULIN_CHAIN_A_DCD)
+    topology_path = os.path.join(files.TEST_DATA_DIR, topology_name)
+    trajectory_path = os.path.join(files.TEST_DATA_DIR, trajectory_name)
+    return mda.Universe(topology_path, trajectory_path)
 
-def retrieve_results( name : str, spacing : int, metrics : str ,segid : str = None ) -> np.ndarray:
+def make_filename(md_name : str, spacing : int , metric : str,chainid : str| None = None) -> str:
+
+    filename : str = ""
+    if chainid is None:
+        filename=f"{md_name}_spacing_{spacing}_{metric}.npy"
+    else:
+        filename= f"{md_name}_spacing_{spacing}_chain_{chainid}_{metric}.npy"
+
+    return filename
+
+def retrieve_results( name : str,
+                     spacing : int,
+                     metrics : str,
+                     chainid : str = None ) -> np.ndarray:
     """Retrieve the results of the Menger curvature analysis from a file
 
     Parameters
@@ -54,13 +69,12 @@ def retrieve_results( name : str, spacing : int, metrics : str ,segid : str = No
     np.ndarray
         The results of the analysis
     """
-    if not segid:
+    if not chainid:
         path= os.path.join(
                 files.TEST_DATA_DIR,
-                f"{name}_spacing_{spacing}_{metrics}.npy")
+                make_filename(name,spacing,metrics, chainid=None))
     else:
         path= os.path.join(
                 files.TEST_DATA_DIR,
-                f"{name}_spacing_{spacing}_segid_{segid}_{metrics}.npy")
+                make_filename(name,spacing,metrics,chainid))
     return np.load(path)
-        

@@ -1,7 +1,29 @@
+"""Tests for the Menger curvature analysis module.
+
+This module contains test cases for the MengerCurvature class and related functions
+that calculate the Menger curvature of molecular structures. The tests verify the
+correctness of curvature calculations, parameter validation, and geometric computations.
+
+The test suite includes:
+- TestMengerCurvature: Class testing the main MengerCurvature analysis functionality
+- test_check_spacing: Tests for spacing parameter validation
+- test_menger_curvature_function: Tests for the core curvature calculation
+- test_compute_triangle_edges: Tests for triangle edge length calculations
+- test_compute_triangle_area: Tests for triangle area calculations
+
+Test data is loaded from JSON files containing pre-computed results for validation.
+The tests use pytest fixtures and parametrization for comprehensive coverage.
+
+"""
+# built-in
+import json
+
+# third-party
 import pytest
 from numpy.testing import assert_allclose
 import numpy as np
 
+# package
 from menger.analysis.mengercurvature import (MengerCurvature,
                                              menger_curvature,
                                              compute_triangle_edges,
@@ -9,6 +31,9 @@ from menger.analysis.mengercurvature import (MengerCurvature,
                                              check_spacing)
 from menger.tests.utils import make_universe, retrieve_results
 
+def get_test_parameters():
+    with open("menger/data/MengerCurvature_test_parameters.json", "r", encoding="utf-8") as f:
+        return json.load(f)
 
 class TestMengerCurvature:
 
@@ -18,18 +43,7 @@ class TestMengerCurvature:
 
     @pytest.mark.parametrize(
         "params_dict",
-        [
-            {
-            'topology_name': 'tubulin_chain_a.pdb',
-            'trajectory_name': 'tubulin_chain_a.dcd',
-            'select': "name CA",
-            'spacing': 2,  # default spacing value
-            'md_name': 'tubulin_chain_a',
-            "chainid": None,
-            'digit_precision': 7
-        },
-        ]
-    )
+        get_test_parameters())
     def test_menger_curvature(self, params_dict):
 
         # make universe
@@ -37,13 +51,9 @@ class TestMengerCurvature:
             params_dict["topology_name"], params_dict["trajectory_name"])
 
         # run menger curvature analysis
-        if params_dict['chainid'] is None:
-            selection = params_dict['select']
-        else:
-            selection = f"chain {params_dict['chainid']} and {params_dict['select']}"
 
         menger_analyser = MengerCurvature(
-            universe, selection, params_dict['spacing'])
+            universe, params_dict["select"], params_dict['spacing'])
         menger_analyser.run()
         results = menger_analyser.results
 
@@ -58,7 +68,10 @@ class TestMengerCurvature:
         for attr_name, test_value in test_cases:
             test_value = np.round(test_value, params_dict['digit_precision'])
             expected_value = retrieve_results(
-                params_dict['md_name'], params_dict['spacing'], attr_name)
+                params_dict['md_name'],
+                params_dict['spacing'],
+                attr_name,
+                chainid=params_dict['chainid'])
             expected_value = np.round(
                 expected_value, params_dict['digit_precision'])
 
@@ -66,31 +79,23 @@ class TestMengerCurvature:
                 test_value,
                 expected_value,
                 err_msg=f"{attr_name} are not as expected for md: "+ \
-                + f"{params_dict['md_name']} spacing {params_dict['spacing']}"
+                f"{params_dict['md_name']} spacing {params_dict['spacing']}"
             )
 
 
-def test_check_spacing():
-    # Test spacing < 1
-    with pytest.raises(ValueError, match="Spacing must be at least 1"):
-        check_spacing(0, 10)
-
-    # Test spacing too large
-    n_atoms = 10
-    too_large_spacing = n_atoms // 2 + 1
-    with pytest.raises(ValueError, match="Spacing is too large for the number of atoms"):
-        check_spacing(too_large_spacing, n_atoms)
-
-    # Test spacing is None
-    with pytest.raises(ValueError, match="Spacing must be provided"):
-        check_spacing(None, 10)
-
-    # Test spacing is not an integer
-    with pytest.raises(TypeError, match="Spacing must be an integer"):
-        check_spacing(1.5, 10)
-
-    # Test valid spacing
-    assert check_spacing(2, 10) is None
+@pytest.mark.parametrize("spacing,n_atoms,expected_error,match", [
+    (0, 10, ValueError, "Spacing must be at least 1"),
+    (6, 10, ValueError, "Spacing is too large for the number of atoms"),  # n_atoms//2 + 1
+    (None, 10, ValueError, "Spacing must be provided"),
+    (1.5, 10, TypeError, "Spacing must be an integer"),
+    (2, 10, None, None),  # Valid case
+])
+def test_check_spacing(spacing, n_atoms, expected_error, match):
+    if expected_error is None:
+        assert check_spacing(spacing, n_atoms) is None
+    else:
+        with pytest.raises(expected_error, match=match):
+            check_spacing(spacing, n_atoms)
 
 
 def test_menger_curvature_function():

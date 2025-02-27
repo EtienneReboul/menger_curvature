@@ -1,0 +1,182 @@
+[
+    {
+        "topology_name": "tubulin_chain_a.pdb",
+        "trajectory_name": "tubulin_chain_a.dcd",
+        "select": "name CA and chainID A",
+        "spacing": 1,
+        "md_name": "tubulin_chain_a",
+        "chainid": "a",
+        "digit_precision": 7
+    },
+    {
+        "topology_name": "tubulin_chain_a.pdb",
+        "trajectory_name": "tubulin_chain_a.dcd",
+        "select": "name CA and chainID A",
+        "spacing": 2,
+        "md_name": "tubulin_chain_a",
+        "chainid": "a",
+        "digit_precision": 7
+    },
+    {
+        "topology_name": "tubulin_chain_a.pdb",
+        "trajectory_name": "tubulin_chain_a.dcd",
+        "select": "name CA and chainID A",
+        "spacing": 3,
+        "md_name": "tubulin_chain_a",
+        "chainid": "a",
+        "digit_precision": 7
+    },
+    {
+        "topology_name": "tubulin_chain_a.pdb",
+        "trajectory_name": "tubulin_chain_a.dcd",
+        "select": "name CA and chainID A",
+        "spacing": 4,
+        "md_name": "tubulin_chain_a",
+        "chainid": "a",
+        "digit_precision": 7
+    },
+    {
+        "topology_name": "tubulin_chain_a.pdb",
+        "trajectory_name": "tubulin_chain_a.dcd",
+        "select": "name CA and chainID A",
+        "spacing": 5,
+        "md_name": "tubulin_chain_a",
+        "chainid": "a",
+        "digit_precision": 7
+    },
+    {
+        "topology_name": "tubulin_chain_abc.pdb",
+        "trajectory_name": "tubulin_chain_abc.dcd",
+        "select": "name CA and chainID A",
+        "spacing": 1,
+        "md_name": "tubulin_chain_abc",
+        "chainid": "a",
+        "digit_precision": 7
+    },
+    {
+        "topology_name": "tubulin_chain_abc.pdb",
+        "trajectory_name": "tubulin_chain_abc.dcd",
+        "select": "name CA and chainID C",
+        "spacing": 1,
+        "md_name": "tubulin_chain_abc",
+        "chainid": "c",
+        "digit_precision": 7
+    },
+    {
+        "topology_name": "tubulin_chain_abc.pdb",
+        "trajectory_name": "tubulin_chain_abc.dcd",
+        "select": "name CA and chainID B",
+        "spacing": 1,
+        "md_name": "tubulin_chain_abc",
+        "chainid": "b",
+        "digit_precision": 7
+    },
+    {
+        "topology_name": "tubulin_chain_abc.pdb",
+        "trajectory_name": "tubulin_chain_abc.dcd",
+        "select": "name CA and chainID A",
+        "spacing": 2,
+        "md_name": "tubulin_chain_abc",
+        "chainid": "a",
+        "digit_precision": 7
+    },
+    {
+        "topology_name": "tubulin_chain_abc.pdb",
+        "trajectory_name": "tubulin_chain_abc.dcd",
+        "select": "name CA and chainID C",
+        "spacing": 2,
+        "md_name": "tubulin_chain_abc",
+        "chainid": "c",
+        "digit_precision": 7
+    },
+    {
+        "topology_name": "tubulin_chain_abc.pdb",
+        "trajectory_name": "tubulin_chain_abc.dcd",
+        "select": "name CA and chainID B",
+        "spacing": 2,
+        "md_name": "tubulin_chain_abc",
+        "chainid": "b",
+        "digit_precision": 7
+    },
+    {
+        "topology_name": "tubulin_chain_abc.pdb",
+        "trajectory_name": "tubulin_chain_abc.dcd",
+        "select": "name CA and chainID A",
+        "spacing": 3,
+        "md_name": "tubulin_chain_abc",
+        "chainid": "a",
+        "digit_precision": 7
+    },
+    {
+        "topology_name": "tubulin_chain_abc.pdb",
+        "trajectory_name": "tubulin_chain_abc.dcd",
+        "select": "name CA and chainID C",
+        "spacing": 3,
+        "md_name": "tubulin_chain_abc",
+        "chainid": "c",
+        "digit_precision": 7
+    },
+    {
+        "topology_name": "tubulin_chain_abc.pdb",
+        "trajectory_name": "tubulin_chain_abc.dcd",
+        "select": "name CA and chainID B",
+        "spacing": 3,
+        "md_name": "tubulin_chain_abc",
+        "chainid": "b",
+        "digit_precision": 7
+    },
+    {
+        "topology_name": "tubulin_chain_abc.pdb",
+        "trajectory_name": "tubulin_chain_abc.dcd",
+        "select": "name CA and chainID A",
+        "spacing": 4,
+        "md_name": "tubulin_chain_abc",
+        "chainid": "a",
+        "digit_precision": 7
+    },
+    {
+        "topology_name": "tubulin_chain_abc.pdb",
+        "trajectory_name": "tubulin_chain_abc.dcd",
+        "select": "name CA and chainID C",
+        "spacing": 4,
+        "md_name": "tubulin_chain_abc",
+        "chainid": "c",
+        "digit_precision": 7
+    },
+    {
+        "topology_name": "tubulin_chain_abc.pdb",
+        "trajectory_name": "tubulin_chain_abc.dcd",
+        "select": "name CA and chainID B",
+        "spacing": 4,
+        "md_name": "tubulin_chain_abc",
+        "chainid": "b",
+        "digit_precision": 7
+    },
+    {
+        "topology_name": "tubulin_chain_abc.pdb",
+        "trajectory_name": "tubulin_chain_abc.dcd",
+        "select": "name CA and chainID A",
+        "spacing": 5,
+        "md_name": "tubulin_chain_abc",
+        "chainid": "a",
+        "digit_precision": 7
+    },
+    {
+        "topology_name": "tubulin_chain_abc.pdb",
+        "trajectory_name": "tubulin_chain_abc.dcd",
+        "select": "name CA and chainID C",
+        "spacing": 5,
+        "md_name": "tubulin_chain_abc",
+        "chainid": "c",
+        "digit_precision": 7
+    },
+    {
+        "topology_name": "tubulin_chain_abc.pdb",
+        "trajectory_name": "tubulin_chain_abc.dcd",
+        "select": "name CA and chainID B",
+        "spacing": 5,
+        "md_name": "tubulin_chain_abc",
+        "chainid": "b",
+        "digit_precision": 7
+    }
+]

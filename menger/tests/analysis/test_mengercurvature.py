@@ -5,7 +5,8 @@ import numpy as np
 from menger.analysis.mengercurvature import (MengerCurvature,
                                              menger_curvature,
                                              compute_triangle_edges,
-                                             compute_triangle_area)
+                                             compute_triangle_area,
+                                             check_spacing)
 from menger.tests.utils import make_tubulin_monomer_universe, retrieve_results
 
 
@@ -71,17 +72,19 @@ class TestMengerCurvature:
                         f" for md: {md_name} spacing {spacing}"
                         )
 
-    def test_invalid_spacing_values(self, universe, select):
-        # Test spacing < 1
-        with pytest.raises(ValueError, match="Spacing must be at least 1"):
-            _ = MengerCurvature(universe, select, spacing=0)
+def test_check_spacing():
+    # Test spacing < 1
+    with pytest.raises(ValueError, match="Spacing must be at least 1"):
+        check_spacing(0, 10)
 
-        # Test spacing too large
-        n_atoms = universe.select_atoms(select).n_atoms
-        too_large_spacing = n_atoms // 2 + 1
-        with pytest.raises(ValueError, match="Spacing is too large for the number of atoms"):
-            _ = MengerCurvature(
-                universe, select, spacing=too_large_spacing)
+    # Test spacing too large
+    n_atoms = 10
+    too_large_spacing = n_atoms // 2 + 1
+    with pytest.raises(ValueError, match="Spacing is too large for the number of atoms"):
+        check_spacing(too_large_spacing, n_atoms)
+
+    # Test valid spacing
+    assert check_spacing(2, 10) is None
 
 
 def test_menger_curvature_function():

@@ -43,8 +43,9 @@ from numba import njit
 if TYPE_CHECKING:
     from MDAnalysis.core.universe import Universe, AtomGroup
 
+
 @njit()
-def compute_triangle_edges(frame: np.ndarray, i : int , spacing : int) -> np.ndarray:
+def compute_triangle_edges(frame: np.ndarray, i: int, spacing: int) -> np.ndarray:
     """
     Calculate the norm of the edges of a triangle given its vertices.
 
@@ -63,12 +64,12 @@ def compute_triangle_edges(frame: np.ndarray, i : int , spacing : int) -> np.nda
     vertices[1] = frame[i+spacing]
     vertices[2] = frame[i+2*spacing]
 
-
     edges_norm[0] = np.linalg.norm(vertices[0] - vertices[1])
     edges_norm[1] = np.linalg.norm(vertices[1] - vertices[2])
     edges_norm[2] = np.linalg.norm(vertices[2] - vertices[0])
 
     return edges_norm
+
 
 @njit()
 def compute_triangle_area(edges_norm: np.ndarray) -> float:
@@ -87,6 +88,7 @@ def compute_triangle_area(edges_norm: np.ndarray) -> float:
         semi_perimeter * np.prod(semi_perimeter - edges_norm))
 
     return triangle_area
+
 
 @njit()
 def menger_curvature(frame: np.ndarray, spacing: int) -> np.ndarray:
@@ -117,6 +119,25 @@ def menger_curvature(frame: np.ndarray, spacing: int) -> np.ndarray:
         frame_curvature[i] = 4 * triangle_area / np.prod(edges_norm)
 
     return frame_curvature
+
+
+def check_spacing(spacing: int, n_atoms: int) -> None:
+    """
+    Check if the spacing is valid given the number of atoms.
+
+    Args:
+        spacing (int): Spacing between atoms.
+        n_atoms (int): Number of atoms in the trajectory.
+    """
+    if not spacing:
+        raise ValueError("Spacing must be provided. " +
+                         "We recommend a spacing of 2 for proteic backbones")
+    if not isinstance(spacing, int):
+        raise TypeError("Spacing must be an integer")
+    if spacing < 1:
+        raise ValueError("Spacing must be at least 1")
+    if 2*spacing >= n_atoms-1:
+        raise ValueError("Spacing is too large for the number of atoms")
 
 
 class MengerCurvature(AnalysisBase):
@@ -184,7 +205,7 @@ class MengerCurvature(AnalysisBase):
         self,
         universe_or_atomgroup: Union["Universe", "AtomGroup"],
         select: str = "all",
-        spacing: int = 2,
+        spacing: int | None = None,
         **kwargs
     ):
         # the below line must be kept to initialize the AnalysisBase class!
@@ -219,10 +240,8 @@ class MengerCurvature(AnalysisBase):
         self.atomgroup = universe_or_atomgroup.select_atoms(select)
         self.spacing = spacing
 
-        if spacing < 1:
-            raise ValueError("Spacing must be at least 1")
-        if 2*spacing >= self.atomgroup.n_atoms-1:
-            raise ValueError("Spacing is too large for the number of atoms")
+        # Check if the spacing is valid
+        check_spacing(spacing, self.atomgroup.n_atoms)
 
     def _prepare(self):
         """Set things up before the analysis loop begins"""

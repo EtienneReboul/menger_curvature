@@ -95,6 +95,8 @@ jobs:
         pytest -n 2 -v --cov=menger --cov-report=xml --color=yes menger/tests/
 
     - name: codecov
+      env:
+        NUMBA_DISABLE_JIT: 1
       if: github.repository == 'EtienneReboul/menger_curvature' && github.event_name != 'schedule'
       uses: codecov/codecov-action@v4
       with:

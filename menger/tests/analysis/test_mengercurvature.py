@@ -82,7 +82,9 @@ def test_check_spacing():
     too_large_spacing = n_atoms // 2 + 1
     with pytest.raises(ValueError, match="Spacing is too large for the number of atoms"):
         check_spacing(too_large_spacing, n_atoms)
-
+    # Test spacing is None
+    with pytest.raises(ValueError, match="Spacing must be provided"):
+        check_spacing(None, 10)
     # Test valid spacing
     assert check_spacing(2, 10) is None
 

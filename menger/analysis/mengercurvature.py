@@ -129,7 +129,7 @@ def check_spacing(spacing: int, n_atoms: int) -> None:
         spacing (int): Spacing between atoms.
         n_atoms (int): Number of atoms in the trajectory.
     """
-    if not spacing:
+    if  spacing is None:
         raise ValueError("Spacing must be provided. " +
                          "We recommend a spacing of 2 for proteic backbones")
     if not isinstance(spacing, int):

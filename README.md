@@ -1,5 +1,4 @@
-Menger_Curvature
-==============================
+# Menger_Curvature
 
 [//]: # (Badges)
 
@@ -26,7 +25,7 @@ Menger_Curvature
 
 Menger_Curvature is bound by a [Code of Conduct](https://github.com/EtienneReboul/menger_curvature/blob/main/CODE_OF_CONDUCT.md).
 
-### Installation
+## Installation
 
 To build Menger_Curvature from source,
 we highly recommend using virtual environments.
@@ -35,7 +34,7 @@ If possible, we strongly recommend that you use
 Below we provide instructions both for `conda` and
 for `pip`.
 
-#### With conda
+## With conda
 
 Ensure that you have [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html) installed.
 
@@ -71,7 +70,7 @@ And when you are finished, you can exit the virtual environment with:
 conda deactivate
 ```
 
-#### With pip
+## With pip
 
 To build the package from source, run:
 
@@ -86,7 +85,7 @@ the dependencies required for tests and docs with:
 pip install ".[test,doc]"
 ```
 
-### Examples
+## Examples
 
 Calculate Menger curvature for the chain A of a tubulin protein trajectory in serial mode:
 
@@ -140,7 +139,7 @@ and is available under the GNU General Public License, version 2 (see the file [
 
 Copyright (c) 2025, LBT
 
-#### Acknowledgements
+### Acknowledgements
 
 Project based on the
 [MDAnalysis Cookiecutter](https://github.com/MDAnalysis/cookiecutter-mda) version 0.1.

@@ -7,6 +7,9 @@ build:
   tools:
     python: "mambaforge-4.10"
 
+sphinx:
+  configuration: docs/conf.py  # Path to your Sphinx configuration file
+
 python:
   install:
     - method: pip

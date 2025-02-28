@@ -12,16 +12,45 @@ protein backbone conformations using C-alpha atoms.
 
 Examples
 --------
-Calculate Menger curvature for a protein trajectory:
+Calculate Menger curvature for the chain A of a tubulin protein trajectory in serial mode:
 
     >>> import MDAnalysis as mda
-    >>> from menger.analysis import MengerCurvature
-    >>> u = mda.Universe("protein.pdb", "trajectory.xtc") 
-    >>> calpha = u.select_atoms("name CA")
-    >>> MC = MengerCurvature(calpha)
-    >>> MC.run()
-    >>> average_curvature = MC.results.local_curvatures
-    >>> flexibility = MC.results.local_flexibilities
+    >>> from menger.analysis.mengercurvature import MengerCurvature
+    >>> from menger.tests.utils import make_universe
+    >>> md_name = "tubulin_chain_a"
+    >>> u = make_universe(
+    ...     topology_name=f"{md_name}.pdb",
+    ...     trajectory_name=f"{md_name}.dcd",
+    ... )
+    >>> menger_analyser = MengerCurvature(
+    ...     u,
+    ...     selection="name CA and chainID A",
+    ...     spacing=2
+    ... )
+    >>> menger_analyser.run()
+    >>> average_curvature = menger_analyser.results.local_curvatures
+    >>> flexibility = menger_analyser.results.local_flexibilities
+    >>> menger_curvature = menger_analyser.results.curvature_array
+
+Calculate Menger curvature for the chain A of a tubulin protein trajectory in parallel mode:
+    >>> import MDAnalysis as mda
+    >>> from menger.analysis.mengercurvature import MengerCurvature
+    >>> from menger.tests.utils import make_universe
+    >>> md_name = "tubulin_chain_a"
+    >>> u = make_universe(
+    ...     topology_name=f"{md_name}.pdb",
+    ...     trajectory_name=f"{md_name}.dcd",
+    ... )
+    >>> menger_analyser = MengerCurvature(
+    ...     u,
+    ...     selection="name CA and chainID A",
+    ...     spacing=2,
+    ...     n_workers=4
+    ... )
+    >>> menger_analyser.run_parallel()
+    >>> average_curvature = menger_analyser.results.local_curvatures
+    >>> flexibility = menger_analyser.results.local_flexibilities
+    >>> menger_curvature = menger_analyser.results.curvature_array
 
 See Also
 --------
@@ -221,7 +250,7 @@ class MengerCurvature(AnalysisBase):
 
     Results
     -------
-    menger_array: numpy.ndarray
+    curvature_array: numpy.ndarray
         Array of shape (n_frames, n_atoms - 2*spacing) storing the Menger curvature 
         for each triplet of points
     local_curvatures: numpy.ndarray
@@ -293,7 +322,7 @@ class MengerCurvature(AnalysisBase):
         # For example, below we create an array to store
         # the number of atoms with negative coordinates
         # in each frame.
-        self.results.menger_array = np.zeros(
+        self.results.curvature_array = np.zeros(
             (self.n_frames, self.atomgroup.n_atoms - 2*self.spacing),
             dtype=np.float32,  # max should 1 Angström  so float32 is
             # enough even with mean and standard deviation porbably float16
@@ -313,11 +342,9 @@ class MengerCurvature(AnalysisBase):
 
         # The trajectory positions update automatically
         coords = self.atomgroup.positions
-        # You can access the frame number using self._frame_index
-        # self.results.menger_array[self._frame_index] = menger_curvature(
-        #    coords, self.spacing)
 
-        self.results.menger_array[self._frame_index] = menger_curvature(
+
+        self.results.curvature_array[self._frame_index] = menger_curvature(
             coords, self.spacing)
 
     def run_parallel(self):
@@ -336,13 +363,13 @@ class MengerCurvature(AnalysisBase):
         with mp.Pool(self.n_workers) as pool:
             results = pool.map(mcc, range(self._trajectory.n_frames))
 
-            self.results.menger_array = np.array(results, dtype=np.float32)
+            self.results.curvature_array = np.array(results, dtype=np.float32)
             self._conclude()
 
     def _conclude(self):
         """Calculate the final results of the analysis"""
 
         self.results.local_curvatures = np.mean(
-            self.results.menger_array, axis=0)
+            self.results.curvature_array, axis=0)
         self.results.local_flexibilities = np.std(
-            self.results.menger_array, axis=0)
+            self.results.curvature_array, axis=0)

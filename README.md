@@ -1,5 +1,6 @@
 Menger_Curvature
 ==============================
+
 [//]: # (Badges)
 
 | **Latest release** | [![Last release tag][badge_release]][url_latest_release] ![GitHub commits since latest release (by date) for a branch][badge_commits_since]  [![Documentation Status][badge_docs]][url_docs]|
@@ -40,33 +41,33 @@ Ensure that you have [conda](https://docs.conda.io/projects/conda/en/latest/user
 
 Create a virtual environment and activate it:
 
-```
+```bash
 conda create --name menger_curvature
 conda activate menger_curvature
 ```
 
 Install the development and documentation dependencies:
 
-```
+```bash
 conda env update --name menger_curvature --file devtools/conda-envs/test_env.yaml
 conda env update --name menger_curvature --file docs/requirements.yaml
 ```
 
 Build this package from source:
 
-```
+```bash
 pip install -e .
 ```
 
 If you want to update your dependencies (which can be risky!), run:
 
-```
+```bash
 conda update --all
 ```
 
 And when you are finished, you can exit the virtual environment with:
 
-```
+```bash
 conda deactivate
 ```
 
@@ -74,27 +75,73 @@ conda deactivate
 
 To build the package from source, run:
 
-```
+```bash
 pip install .
 ```
 
 If you want to create a development environment, install
 the dependencies required for tests and docs with:
 
-```
+```bash
 pip install ".[test,doc]"
+```
+
+### Examples
+
+Calculate Menger curvature for the chain A of a tubulin protein trajectory in serial mode:
+
+```python
+>>> import MDAnalysis as mda
+>>> from menger.analysis.mengercurvature import MengerCurvature
+>>> from menger.tests.utils import make_universe
+>>> md_name = "tubulin_chain_a"
+>>> u = make_universe(
+...     topology_name=f"{md_name}.pdb",
+...     trajectory_name=f"{md_name}.dcd",
+... )
+>>> menger_analyser = MengerCurvature(
+...     u,
+...     selection="name CA and chainID A",
+...     spacing=2
+... )
+>>> menger_analyser.run()
+>>> average_curvature = menger_analyser.results.local_curvatures
+>>> flexibility = menger_analyser.results.local_flexibilities
+>>> menger_curvature = menger_analyser.results.curvature_array
+```
+
+Calculate Menger curvature for the chain A of a tubulin protein trajectory in parallel mode:
+
+```python
+>>> import MDAnalysis as mda
+>>> from menger.analysis.mengercurvature import MengerCurvature
+>>> from menger.tests.utils import make_universe
+>>> md_name = "tubulin_chain_a"
+>>> u = make_universe(
+...     topology_name=f"{md_name}.pdb",
+...     trajectory_name=f"{md_name}.dcd",
+... )
+>>> menger_analyser = MengerCurvature(
+...     u,
+...     selection="name CA and chainID A",
+...     spacing=2,
+...     n_workers=4
+... )
+>>> menger_analyser.run_parallel()
+>>> average_curvature = menger_analyser.results.local_curvatures
+>>> flexibility = menger_analyser.results.local_flexibilities
+>>> menger_curvature = menger_analyser.results.curvature_array
 ```
 
 ### Copyright
 
-The Menger_Curvature source code is hosted at https://github.com/EtienneReboul/menger_curvature
+The Menger_Curvature source code is hosted at <https://github.com/EtienneReboul/menger_curvature>
 and is available under the GNU General Public License, version 2 (see the file [LICENSE](https://github.com/EtienneReboul/menger_curvature/blob/main/LICENSE)).
 
 Copyright (c) 2025, LBT
 
-
 #### Acknowledgements
- 
-Project based on the 
+
+Project based on the
 [MDAnalysis Cookiecutter](https://github.com/MDAnalysis/cookiecutter-mda) version 0.1.
 Please cite [MDAnalysis](https://github.com/MDAnalysis/mdanalysis#citation) when using Menger_Curvature in published work.

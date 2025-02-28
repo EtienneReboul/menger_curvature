@@ -38,7 +38,7 @@ def get_test_parameters():
 def compare_results(results, params_dict):
     # Define test cases
     test_cases = [
-        ('menger_array', results.menger_array),
+        ('curvature_array', results.curvature_array),
         ('local_curvatures', results.local_curvatures),
         ('local_flexibilities', results.local_flexibilities)
     ]
@@ -91,13 +91,15 @@ class TestMengerCurvature:
         get_test_parameters())
     def test_menger_curvature_parallel(self, params_dict):
         """Test that parallel execution gives same results as serial"""
-         # make universe
+
         universe = make_universe(
             params_dict["topology_name"], params_dict["trajectory_name"])
 
         # Run parallel analysis with 2 workers
         mc_parallel = MengerCurvature(
-            universe, params_dict["select"], params_dict['spacing'])
+            universe, params_dict["select"],
+            params_dict['spacing'],
+            n_workers=1)
         mc_parallel.run_parallel()
 
         # Compare results

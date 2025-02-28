@@ -45,8 +45,9 @@ documentation = "https://menger_curvature.readthedocs.io"
 [tool.setuptools.packages.find]
 include = ["menger"]
 exclude = [
+    "docs*",
     "menger/data/test_data/*.npy",
-    "menger/data/test_data/tubulin_chain_abc.dcd"
+    "menger/data/test_data/tubulin_chain_abc.*"
 ]
 
 

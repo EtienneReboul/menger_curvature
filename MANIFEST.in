@@ -4,3 +4,8 @@ include AUTHORS.md CHANGELOG.md CODE_OF_CONDUCT.md README.md
 
 graft menger
 global-exclude *.py[cod] __pycache__ *.so
+
+global-exclude *.npy
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude *tubulin_chain_abc.*

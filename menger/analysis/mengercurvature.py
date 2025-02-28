@@ -38,7 +38,10 @@ References
 
 """
 from typing import Union, TYPE_CHECKING
+import multiprocessing as mp
+from functools import partial
 
+import MDAnalysis as mda
 from MDAnalysis.analysis.base import AnalysisBase
 import numpy as np
 from numba import njit
@@ -123,6 +126,39 @@ def menger_curvature(frame: np.ndarray, spacing: int) -> np.ndarray:
 
     return frame_curvature
 
+def menger_curvature_wrapper( frame_index : int,
+                             universe : mda.Universe,
+                             atom_sel : str,
+                             spacing : int ) -> np.ndarray:
+    """Wrapper function for parallel computation of Menger curvature
+     on molecular dynamics trajectories.
+    This function prepares the data from a specific frame of a molecular dynamics trajectory
+    for Menger curvature calculation.
+    Parameters
+    ----------
+    frame_index : int
+        Index of the frame to analyze in the trajectory
+    universe : MDAnalysis.Universe
+        MDAnalysis Universe object containing the trajectory and topology
+    atom_sel : str
+        MDAnalysis selection string to specify which atoms to analyze
+    spacing : int
+        Number of atoms to skip between triplet points when calculating curvature
+    Returns
+    -------
+    numpy.ndarray
+        Array containing the Menger curvature values calculated for the selected atoms
+        at the specified frame
+    Notes
+    -----
+    This wrapper is designed to be used with multiprocessing to parallelize calculations
+    across multiple trajectory frames.
+    """
+    # change frame to the desired index
+    _= universe.trajectory[frame_index]
+    positions = universe.select_atoms(atom_sel).positions
+    return menger_curvature(positions, spacing)
+
 
 def check_spacing(spacing: int, n_atoms: int) -> None:
     """
@@ -132,7 +168,7 @@ def check_spacing(spacing: int, n_atoms: int) -> None:
         spacing (int): Spacing between atoms.
         n_atoms (int): Number of atoms in the trajectory.
     """
-    if  spacing is None:
+    if spacing is None:
         raise ValueError("Spacing must be provided. " +
                          "We recommend a spacing of 2 for proteic backbones")
     if not isinstance(spacing, int):
@@ -209,6 +245,7 @@ class MengerCurvature(AnalysisBase):
         universe_or_atomgroup: Union["Universe", "AtomGroup"],
         select: str = "all",
         spacing: int | None = None,
+        n_workers: int |None = None,
         **kwargs
     ):
         # the below line must be kept to initialize the AnalysisBase class!
@@ -241,7 +278,9 @@ class MengerCurvature(AnalysisBase):
 
         self.universe = universe_or_atomgroup.universe
         self.atomgroup = universe_or_atomgroup.select_atoms(select)
+        self.sel = select
         self.spacing = spacing
+        self.n_workers = n_workers if n_workers is not None else mp.cpu_count()-2
 
         # Check if the spacing is valid
         check_spacing(spacing, self.atomgroup.n_atoms)
@@ -280,6 +319,25 @@ class MengerCurvature(AnalysisBase):
 
         self.results.menger_array[self._frame_index] = menger_curvature(
             coords, self.spacing)
+
+    def run_parallel(self):
+        """Run the analysis in parallel using multiprocessing.pool"""
+
+        # self._prepare()
+
+        # make partial object for menger analysis
+        mcc = partial(menger_curvature_wrapper,
+                      universe= self.universe,
+                      atom_sel=self.sel,
+                      spacing=self.spacing
+                      )
+
+        #  do pool parralelization
+        with mp.Pool(self.n_workers) as pool:
+            results = pool.map(mcc, range(self._trajectory.n_frames))
+
+            self.results.menger_array = np.array(results, dtype=np.float32)
+            self._conclude()
 
     def _conclude(self):
         """Calculate the final results of the analysis"""

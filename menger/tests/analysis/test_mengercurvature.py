@@ -35,6 +35,32 @@ def get_test_parameters():
     with open("menger/data/MengerCurvature_test_parameters.json", "r", encoding="utf-8") as f:
         return json.load(f)
 
+def compare_results(results, params_dict):
+    # Define test cases
+    test_cases = [
+        ('menger_array', results.menger_array),
+        ('local_curvatures', results.local_curvatures),
+        ('local_flexibilities', results.local_flexibilities)
+    ]
+
+    # Test each attribute
+    for attr_name, test_value in test_cases:
+        expected_value = retrieve_results(
+            params_dict['md_name'],
+            params_dict['spacing'],
+            attr_name,
+            chainid=params_dict['chainid'])
+
+
+        assert_allclose(
+        test_value,
+        expected_value,
+        rtol= params_dict['rtol'],
+        err_msg=f"{attr_name} are not as expected for md: "+ \
+        f"{params_dict['md_name']} spacing {params_dict['spacing']}",
+        verbose=True)
+
+
 class TestMengerCurvature:
 
     # fixtures are helpful functions that set up a test
@@ -57,30 +83,25 @@ class TestMengerCurvature:
         menger_analyser.run()
         results = menger_analyser.results
 
-        # Define test cases
-        test_cases = [
-            ('menger_array', results.menger_array),
-            ('local_curvatures', results.local_curvatures),
-            ('local_flexibilities', results.local_flexibilities)
-        ]
+        # compare results
+        compare_results(results, params_dict)
 
-        # Test each attribute
-        for attr_name, test_value in test_cases:
-            test_value = np.round(test_value, params_dict['digit_precision'])
-            expected_value = retrieve_results(
-                params_dict['md_name'],
-                params_dict['spacing'],
-                attr_name,
-                chainid=params_dict['chainid'])
-            expected_value = np.round(
-                expected_value, params_dict['digit_precision'])
+    @pytest.mark.parametrize(
+        "params_dict",
+        get_test_parameters())
+    def test_menger_curvature_parallel(self, params_dict):
+        """Test that parallel execution gives same results as serial"""
+         # make universe
+        universe = make_universe(
+            params_dict["topology_name"], params_dict["trajectory_name"])
 
-            assert_allclose(
-                test_value,
-                expected_value,
-                err_msg=f"{attr_name} are not as expected for md: "+ \
-                f"{params_dict['md_name']} spacing {params_dict['spacing']}"
-            )
+        # Run parallel analysis with 2 workers
+        mc_parallel = MengerCurvature(
+            universe, params_dict["select"], params_dict['spacing'])
+        mc_parallel.run_parallel()
+
+        # Compare results
+        compare_results(mc_parallel.results, params_dict)
 
 
 @pytest.mark.parametrize("spacing,n_atoms,expected_error,match", [

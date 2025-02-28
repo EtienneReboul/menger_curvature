@@ -44,6 +44,10 @@ documentation = "https://menger_curvature.readthedocs.io"
 
 [tool.setuptools.packages.find]
 include = ["menger"]
+exclude = [
+    "menger/data/test_data/*.npy"
+]
+
 
 [tool.pytest.ini_options]
 minversion = "6.0"

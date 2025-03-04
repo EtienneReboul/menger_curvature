@@ -28,8 +28,10 @@ from menger.analysis.mengercurvature import (MengerCurvature,
                                              menger_curvature,
                                              compute_triangle_edges,
                                              compute_triangle_area,
-                                             check_spacing)
+                                             check_spacing,
+                                             check_select)
 from menger.tests.utils import make_universe, retrieve_results
+from MDAnalysis.exceptions import SelectionError
 
 def get_test_parameters():
     with open("menger/data/MengerCurvature_test_parameters.json", "r", encoding="utf-8") as f:
@@ -120,6 +122,20 @@ def test_check_spacing(spacing, n_atoms, expected_error, match):
         with pytest.raises(expected_error, match=match):
             check_spacing(spacing, n_atoms)
 
+@pytest.mark.parametrize("select,universe,expected_error,match", [
+    (None, make_universe("tubulin_chain_a.pdb", "tubulin_chain_a.dcd"), ValueError, "Selection string must be provided"),
+    (123, make_universe("tubulin_chain_a.pdb", "tubulin_chain_a.dcd"), TypeError, "Selection string must be a string"), 
+    ("invalid selection", make_universe("tubulin_chain_a.pdb", "tubulin_chain_a.dcd"), SelectionError, "Unknown selection token: 'invalid'"),
+    ("name CA and resid 1", make_universe("tubulin_chain_a.pdb", "tubulin_chain_a.dcd"), ValueError, "Selection string must match at least 3 atoms"),
+    ("name CA and segid A", make_universe("tubulin_chain_a.pdb", "tubulin_chain_a.dcd"), ValueError, "Selection string did not match any atoms"),
+    ("name CA and chainID A", make_universe("tubulin_chain_a.pdb", "tubulin_chain_a.dcd"), None, None)  # Valid case
+])
+def test_check_select(select, universe, expected_error, match):
+    if expected_error is None:
+        assert check_select(universe, select) is None
+    else:
+        with pytest.raises(expected_error, match=match):
+            check_select(universe, select)
 
 def test_menger_curvature_function():
     frame = np.array([[13.31, 34.22, 34.36],

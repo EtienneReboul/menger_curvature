@@ -24,7 +24,7 @@ Calculate Menger curvature for the chain A of a tubulin protein trajectory in se
     ... )
     >>> menger_analyser = MengerCurvature(
     ...     u,
-    ...     selection="name CA and chainID A",
+    ...     select="name CA and chainID A",
     ...     spacing=2
     ... )
     >>> menger_analyser.run()
@@ -43,7 +43,7 @@ Calculate Menger curvature for the chain A of a tubulin protein trajectory in pa
     ... )
     >>> menger_analyser = MengerCurvature(
     ...     u,
-    ...     selection="name CA and chainID A",
+    ...     select="name CA and chainID A",
     ...     spacing=2,
     ...     n_workers=4
     ... )
@@ -207,6 +207,22 @@ def check_spacing(spacing: int, n_atoms: int) -> None:
     if 2*spacing >= n_atoms-1:
         raise ValueError("Spacing is too large for the number of atoms")
 
+def check_select(universe, select):
+    """
+    Check if the selection string is valid for the universe.
+    Args:
+        universe (MDAnalysis.core.universe.Universe): Universe object.
+        select (str): Selection string.
+    """
+    if select is None:
+        raise ValueError("Selection string must be provided")
+    if not isinstance(select, str):
+        raise TypeError("Selection string must be a string")
+    if len(universe.select_atoms(select)) == 0:
+        raise ValueError("Selection string did not match any atoms")
+    if len(universe.select_atoms(select)) < 3:
+        raise ValueError("Selection string must match at least 3 atoms")
+
 
 class MengerCurvature(AnalysisBase):
     """
@@ -272,7 +288,7 @@ class MengerCurvature(AnalysisBase):
     def __init__(
         self,
         universe_or_atomgroup: Union["Universe", "AtomGroup"],
-        select: str = "all",
+        select: str | None = None,
         spacing: int | None = None,
         n_workers: int |None = None,
         **kwargs
@@ -313,6 +329,9 @@ class MengerCurvature(AnalysisBase):
 
         # Check if the spacing is valid
         check_spacing(spacing, self.atomgroup.n_atoms)
+
+        # check if the selection is valid
+        check_select(self.universe, select)
 
     def _prepare(self):
         """Set things up before the analysis loop begins"""

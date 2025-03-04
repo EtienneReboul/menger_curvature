@@ -1,4 +1,5 @@
 # Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
@@ -15,23 +16,25 @@ The rules for this file:
     * YYYY-MM-DD date format (following ISO 8601)
   * accompany each entry with github issue/PR number (Issue #xyz)
 -->
-
-## [Unreleased]
-
-### Authors
-<!-- GitHub usernames of contributors to this release -->
+## [0.2.0] - 2024-03-04
 
 ### Added
-<!-- New added features -->
 
-### Fixed
-<!-- Bug fixes -->
+- Better error handling for spacing and selection parameters
+- Improved documentation with usage examples
 
-### Changed
-<!-- Changes in existing functionality -->
+## [0.1.0] - 2024-02-28
 
-### Deprecated
-<!-- Soon-to-be removed features -->
+### Added
 
-### Removed
-<!-- Removed features -->
+- Initial release
+- MengerCurvature analysis class
+- Parallel computation support
+- Support for MDAnalysis trajectories
+- Unit test suite with code coverage
+
+### Dependencies
+
+- NumPy
+- MDAnalysis
+- Numba

@@ -21,7 +21,9 @@
 [url_license]: https://www.gnu.org/licenses/gpl-2.0
 [url_mda]: https://www.mdanalysis.org
 
-"This project aims to provide a simple MDAkit for JIT accelerated Menger curvature calculation"
+This project aims to provide a simple MDAkit for JIT accelerated Menger curvature calculation
+
+![Figure 2: Curvature-Flexibility Plot](https://github.com/EtienneReboul/menger_curvature/raw/main/figures/Figure_2.pdf?raw=true)
 
 Menger_Curvature is bound by a [Code of Conduct](https://github.com/EtienneReboul/menger_curvature/blob/main/CODE_OF_CONDUCT.md).
 

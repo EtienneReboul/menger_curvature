@@ -22,7 +22,7 @@ The rules for this file:
 
 - Notebook for benchmarking Metrics : Neq,RMSF,Menger Curvature
 - Notebooks for generating Figures for paper
-- Additionnal Paper figure in pdf
+- Additionnal handmade figures for paper
 
 ### Changed in 0.3.0
 

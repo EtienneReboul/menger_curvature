@@ -16,16 +16,29 @@ The rules for this file:
     * YYYY-MM-DD date format (following ISO 8601)
   * accompany each entry with github issue/PR number (Issue #xyz)
 -->
+## [0.3.0] - 2024-03-14
+
+### Added in O.3.0
+
+- Notebook for benchmarking Metrics : Neq,RMSF,Menger Curvature
+- Notebooks for generating Figures for paper
+- Additionnal Paper figure in pdf
+
+### Changed in 0.3.0
+
+- changed order of test in Menger class :  spacing -> selection => selection -> spacing
+- Correct typo in documentation where argument select was wrongly refered as selection
+
 ## [0.2.0] - 2024-03-04
 
-### Added
+### Added in 0.2.0
 
 - Better error handling for spacing and selection parameters
 - Improved documentation with usage examples
 
 ## [0.1.0] - 2024-02-28
 
-### Added
+### Added in 0.1.0
 
 - Initial release
 - MengerCurvature analysis class

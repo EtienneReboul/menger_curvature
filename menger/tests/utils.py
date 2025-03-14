@@ -35,8 +35,8 @@ def make_universe(topology_name : str , trajectory_name : str ) -> mda.Universe:
     -------
     MDAnalysis.core.universe.Universe object
     """
-    topology_path = os.path.join(files.TEST_DATA_DIR, topology_name)
-    trajectory_path = os.path.join(files.TEST_DATA_DIR, trajectory_name)
+    topology_path = os.path.join(files.DATA_DIR, topology_name)
+    trajectory_path = os.path.join(files.DATA_DIR, trajectory_name)
     return mda.Universe(topology_path, trajectory_path)
 
 def make_filename(md_name : str, spacing : int , metric : str,chainid : str| None = None) -> str:
@@ -71,10 +71,10 @@ def retrieve_results( name : str,
     """
     if not chainid:
         path= os.path.join(
-                files.TEST_DATA_DIR,
+                files.DATA_DIR,
                 make_filename(name,spacing,metrics, chainid=None))
     else:
         path= os.path.join(
-                files.TEST_DATA_DIR,
+                files.DATA_DIR,
                 make_filename(name,spacing,metrics,chainid))
     return np.load(path)

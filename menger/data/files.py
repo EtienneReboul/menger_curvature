@@ -31,16 +31,15 @@ __all__ = [
     "TUBULIN_CHAIN_A_PDB",  # example PDB file
     "TUBULIN_CHAIN_ABC_DCD",  # example DCD file
     "TUBULIN_CHAIN_ABC_PDB",  # example PDB file
-    "TEST_DATA_DIR",  # directory containing test data
 ]
 
 import importlib.resources
 
-data_directory = importlib.resources.files("menger") / "data"
+data_directory = importlib.resources.files("menger") / "data/test_data"
 
 MDANALYSIS_LOGO = data_directory / "mda.txt"
-TUBULIN_CHAIN_A_DCD = data_directory / "tubulin_chain_A.dcd"
-TUBULIN_CHAIN_A_PDB = data_directory / "tubulin_chain_A.pdb"
-TUBULIN_CHAIN_ABC_DCD= data_directory / "tubulin_chain_ABC.dcd"
-TUBULIN_CHAIN_ABC_PDB= data_directory / "tubulin_chain_ABC.pdb"
-TEST_DATA_DIR = data_directory / "test_data"
+TUBULIN_CHAIN_A_DCD = data_directory / "tubulin_chain_a.dcd"
+TUBULIN_CHAIN_A_PDB = data_directory / "tubulin_chain_a.pdb"
+TUBULIN_CHAIN_ABC_DCD= data_directory / "tubulin_chain_abc.dcd"
+TUBULIN_CHAIN_ABC_PDB= data_directory / "tubulin_chain_abc.pdb"
+DATA_DIR = data_directory

@@ -327,11 +327,13 @@ class MengerCurvature(AnalysisBase):
         self.spacing = spacing
         self.n_workers = n_workers if n_workers is not None else mp.cpu_count()-2
 
+        # check if the selection is valid
+        check_select(self.universe, select)
+
         # Check if the spacing is valid
         check_spacing(spacing, self.atomgroup.n_atoms)
 
-        # check if the selection is valid
-        check_select(self.universe, select)
+
 
     def _prepare(self):
         """Set things up before the analysis loop begins"""

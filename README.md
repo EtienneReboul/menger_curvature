@@ -16,7 +16,7 @@
 [badge_release]: https://img.shields.io/github/release-pre/EtienneReboul/menger_curvature.svg
 [url_actions]: https://github.com/EtienneReboul/menger_curvature/actions?query=branch%3Amain+workflow%3Agh-ci
 [url_codecov]: https://codecov.io/gh/EtienneReboul/menger_curvature/branch/main
-[url_docs]: https://menger_curvature.readthedocs.io/en/latest/?badge=latest
+[url_docs]:  https://menger-curvature.readthedocs.io/en/latest/
 [url_latest_release]: https://github.com/EtienneReboul/menger_curvature/releases
 [url_license]: https://www.gnu.org/licenses/gpl-2.0
 [url_mda]: https://www.mdanalysis.org
@@ -27,6 +27,27 @@ Menger_Curvature is bound by a [Code of Conduct](https://github.com/EtienneRebou
 
 ## Installation
 
+## User
+
+### With pypi project
+
+The easiest way to install Menger_Curvature is through pip:
+
+```bash
+pip install menger-curvature
+```
+
+This will install the latest stable release from PyPI.
+
+## Developper
+
+Clone the repository and enter it:
+
+```bash
+git clone https://github.com/EtienneReboul/menger_curvature.git
+cd menger_curvature
+```
+
 To build Menger_Curvature from source,
 we highly recommend using virtual environments.
 If possible, we strongly recommend that you use
@@ -34,7 +55,7 @@ If possible, we strongly recommend that you use
 Below we provide instructions both for `conda` and
 for `pip`.
 
-## With conda
+### With conda
 
 Ensure that you have [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html) installed.
 
@@ -70,7 +91,7 @@ And when you are finished, you can exit the virtual environment with:
 conda deactivate
 ```
 
-## With pip
+### With pip
 
 To build the package from source, run:
 
@@ -100,7 +121,7 @@ Calculate Menger curvature for the chain A of a tubulin protein trajectory in se
 ... )
 >>> menger_analyser = MengerCurvature(
 ...     u,
-...     selection="name CA and chainID A",
+...     select="name CA and chainID A",
 ...     spacing=2
 ... )
 >>> menger_analyser.run()
@@ -122,7 +143,7 @@ Calculate Menger curvature for the chain A of a tubulin protein trajectory in pa
 ... )
 >>> menger_analyser = MengerCurvature(
 ...     u,
-...     selection="name CA and chainID A",
+...     select="name CA and chainID A",
 ...     spacing=2,
 ...     n_workers=4
 ... )

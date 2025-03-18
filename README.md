@@ -21,11 +21,11 @@
 [url_license]: https://www.gnu.org/licenses/gpl-2.0
 [url_mda]: https://www.mdanalysis.org
 
-This project aims to provide a simple MDAkit for JIT accelerated Menger curvature calculation
+This project aims to provide a simple MDAkit for JIT accelerated Menger curvature calculation. The idea is to associate a value of curvature to as many residues as possible in a polymer. If one has access to several conformations , the average value of the curvature (LC) and its standard deviation (LF) are valuable information to characterize the local dynamics of the backbone. 
 
-![Figure 2: Curvature-Flexibility Plot](figures/Figure_2.svg)
-
-Menger_Curvature is bound by a [Code of Conduct](https://github.com/EtienneReboul/menger_curvature/blob/main/CODE_OF_CONDUCT.md).
+|![Figure 2: Curvature-Flexibility Plot](figures/Figure_2.svg)|
+|:--:|
+|Range of proteic menger curvature (PMC) values and their associated structural elements. Backbone representations are extracted from the single chain tubulin simulation. Backbone is represented in licorice, Cαs involved in the PMC calculations are in black Van de Waals.|
 
 ## Installation
 
@@ -108,52 +108,66 @@ the dependencies required for tests and docs with:
 pip install ".[test,doc]"
 ```
 
-## Examples
+## Quick Start
 
+We expect the calculation to take less than a minute for a trajectory of 441 alpha carbon with 20,000 frames
 Calculate Menger curvature for the chain A of a tubulin protein trajectory in serial mode:
 
 ```python
->>> import MDAnalysis as mda
->>> from menger.analysis.mengercurvature import MengerCurvature
->>> from menger.tests.utils import make_universe
->>> md_name = "tubulin_chain_a"
->>> u = make_universe(
-...     topology_name=f"{md_name}.pdb",
-...     trajectory_name=f"{md_name}.dcd",
-... )
->>> menger_analyser = MengerCurvature(
-...     u,
-...     select="name CA and chainID A",
-...     spacing=2
-... )
->>> menger_analyser.run()
->>> average_curvature = menger_analyser.results.local_curvatures
->>> flexibility = menger_analyser.results.local_flexibilities
->>> menger_curvature = menger_analyser.results.curvature_array
+import MDAnalysis as mda
+from menger.analysis.mengercurvature import MengerCurvature
+from menger.data import files
+
+# replace by your own filepaths 
+topology = files.TUBULIN_CHAIN_A_PDB 
+trajectory = files.TUBULIN_CHAIN_A_DCD
+u = mda.Universe(topology, trajectory)
+
+# run analysis in serial mode 
+menger_analyser = MengerCurvature(
+    u,
+    select="name CA and chainID A",
+    spacing=2
+    )
+menger_analyser.run()
+
+# retrieve results data
+average_curvature = menger_analyser.results.local_curvatures
+flexibility = menger_analyser.results.local_flexibilities
+menger_curvature = menger_analyser.results.curvature_array
 ```
 
 Calculate Menger curvature for the chain A of a tubulin protein trajectory in parallel mode:
 
 ```python
->>> import MDAnalysis as mda
->>> from menger.analysis.mengercurvature import MengerCurvature
->>> from menger.tests.utils import make_universe
->>> md_name = "tubulin_chain_a"
->>> u = make_universe(
-...     topology_name=f"{md_name}.pdb",
-...     trajectory_name=f"{md_name}.dcd",
-... )
->>> menger_analyser = MengerCurvature(
-...     u,
-...     select="name CA and chainID A",
-...     spacing=2,
-...     n_workers=4
-... )
->>> menger_analyser.run_parallel()
->>> average_curvature = menger_analyser.results.local_curvatures
->>> flexibility = menger_analyser.results.local_flexibilities
->>> menger_curvature = menger_analyser.results.curvature_array
+import MDAnalysis as mda
+from menger.analysis.mengercurvature import MengerCurvature
+from menger.data import files
+
+# replace by your own filepaths 
+topology = files.TUBULIN_CHAIN_A_PDB 
+trajectory = files.TUBULIN_CHAIN_A_DCD
+u = mda.Universe(topology, trajectory)
+
+# run analysis in parallel 
+menger_analyser = MengerCurvature(
+    u,
+    select="name CA and chainID A",
+    spacing=2,n_workers=4
+    )
+menger_analyser.run_parallel()
+average_curvature = menger_analyser.results.local_curvatures
+flexibility = menger_analyser.results.local_flexibilities
+menger_curvature = menger_analyser.results.curvature_array
 ```
+
+## Tutorial
+
+We provide a more comprehensive tutorial in a  [jupyter notebook](notebooks/jm01-tutorial.ipynb)
+
+### Code of conduct
+
+Menger_Curvature is bound by a [Code of Conduct](https://github.com/EtienneReboul/menger_curvature/blob/main/CODE_OF_CONDUCT.md).
 
 ### Copyright
 

@@ -16,6 +16,13 @@ The rules for this file:
     * YYYY-MM-DD date format (following ISO 8601)
   * accompany each entry with github issue/PR number (Issue #xyz)
 -->
+## [0.3.1] - 2024-03-26
+
+### Changed in 0.3.1
+
+- Minor change in README for better documentation
+- Added better version control for numpy (=<2.1) in pyproject.toml.To prevent mismatch with numba (0.6.0) own numpy dependencies
+
 ## [0.3.0] - 2024-03-14
 
 ### Added in O.3.0

@@ -16,6 +16,17 @@ The rules for this file:
     * YYYY-MM-DD date format (following ISO 8601)
   * accompany each entry with github issue/PR number (Issue #xyz)
 -->
+## [1.0.0] - 2024-04-03
+
+### Added in 1.0.0
+
+- First version to be registered as an MDAKit
+- Documentation with Sphinx support for API reference
+
+### Changed in 1.0.0
+
+- Multiple format fixes in Menger curvature module docstrings for Sphinx compliance
+
 ## [0.3.1] - 2024-03-26
 
 ### Changed in 0.3.1

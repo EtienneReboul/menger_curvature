@@ -8,11 +8,13 @@ The data files include:
 
 Usage
 -----
-Import all file paths::
+The files can be accessed directly by importing their path constants:
 
+>>> from menger.data.files import TUBULIN_CHAIN_A_PDB
+>>> print(TUBULIN_CHAIN_A_PDB)  # prints full path to PDB file
 
 Available Files
---------------
+---------------
 MDANALYSIS_LOGO : Path
     Path to MDAnalysis logo text fileTUBULIN_CHAIN_A_DCD : Path  
     Path to example DCD trajectory file of tubulin chain A

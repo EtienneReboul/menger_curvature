@@ -1,10 +1,10 @@
-"""
-This module contains functionality for calculating Menger curvature along trajectories.
+"""This module contains functionality for calculating Menger curvature along trajectories.
+
 The Menger curvature provides information about local geometry by calculating the reciprocal
 radius of the circumscribed circle passing through three points. 
 
 The module contains:
-- menger_curvature(): numba 
+- menger_curvature(): numba function to compute curvature for a single frame
 - MengerCurvature: Analysis class that processes trajectories to extract curvature information
 
 The analysis can be applied to any set of points, but is particularly useful for analyzing
@@ -14,43 +14,44 @@ Examples
 --------
 Calculate Menger curvature for the chain A of a tubulin protein trajectory in serial mode:
 
-    >>> import MDAnalysis as mda
-    >>> from menger.analysis.mengercurvature import MengerCurvature
-    >>> from menger.tests.utils import make_universe
-    >>> md_name = "tubulin_chain_a"
-    >>> u = make_universe(
-    ...     topology_name=f"{md_name}.pdb",
-    ...     trajectory_name=f"{md_name}.dcd",
-    ... )
-    >>> menger_analyser = MengerCurvature(
-    ...     u,
-    ...     select="name CA and chainID A",
-    ...     spacing=2
-    ... )
-    >>> menger_analyser.run()
-    >>> average_curvature = menger_analyser.results.local_curvatures
-    >>> flexibility = menger_analyser.results.local_flexibilities
-    >>> menger_curvature = menger_analyser.results.curvature_array
+>>> import MDAnalysis as mda
+>>> from menger.analysis.mengercurvature import MengerCurvature
+>>> from menger.tests.utils import make_universe
+>>> md_name = "tubulin_chain_a"
+>>> u = make_universe(
+...     topology_name=f"{md_name}.pdb",
+...     trajectory_name=f"{md_name}.dcd",
+... )
+>>> menger_analyser = MengerCurvature(
+...     u,
+...     select="name CA and chainID A",
+...     spacing=2
+... )
+>>> menger_analyser.run()
+>>> average_curvature = menger_analyser.results.local_curvatures
+>>> flexibility = menger_analyser.results.local_flexibilities
+>>> menger_curvature = menger_analyser.results.curvature_array
 
 Calculate Menger curvature for the chain A of a tubulin protein trajectory in parallel mode:
-    >>> import MDAnalysis as mda
-    >>> from menger.analysis.mengercurvature import MengerCurvature
-    >>> from menger.tests.utils import make_universe
-    >>> md_name = "tubulin_chain_a"
-    >>> u = make_universe(
-    ...     topology_name=f"{md_name}.pdb",
-    ...     trajectory_name=f"{md_name}.dcd",
-    ... )
-    >>> menger_analyser = MengerCurvature(
-    ...     u,
-    ...     select="name CA and chainID A",
-    ...     spacing=2,
-    ...     n_workers=4
-    ... )
-    >>> menger_analyser.run_parallel()
-    >>> average_curvature = menger_analyser.results.local_curvatures
-    >>> flexibility = menger_analyser.results.local_flexibilities
-    >>> menger_curvature = menger_analyser.results.curvature_array
+
+>>> import MDAnalysis as mda
+>>> from menger.analysis.mengercurvature import MengerCurvature
+>>> from menger.tests.utils import make_universe
+>>> md_name = "tubulin_chain_a"
+>>> u = make_universe(
+...     topology_name=f"{md_name}.pdb",
+...     trajectory_name=f"{md_name}.dcd",
+... )
+>>> menger_analyser = MengerCurvature(
+...     u,
+...     select="name CA and chainID A",
+...     spacing=2,
+...     n_workers=4
+... )
+>>> menger_analyser.run_parallel()
+>>> average_curvature = menger_analyser.results.local_curvatures
+>>> flexibility = menger_analyser.results.local_flexibilities
+>>> menger_curvature = menger_analyser.results.curvature_array
 
 See Also
 --------
@@ -58,13 +59,14 @@ MDAnalysis.analysis.base.AnalysisBase : Base class for analysis
 
 References
 ----------
-[1]Menger, Karl. Géométrie générale. 1954. <http://eudml.org/doc/192644>.
-[2] J. C. Léger. Menger Curvature and Rectifiability. Annals of Mathematics. 
-    1999, 149, 831– 869, DOI: 10.2307/121074
-[3]Marien J, Prévost C, Sacquin-Mora S. nP-Collabs: Investigating Counterion-Mediated 
-    Bridges in the Multiply Phosphorylated Tau-R2 Repeat.J Chem Inf Model. 
-    2024 Aug 26;64(16):6570-6582. doi: 10.1021/acs.jcim.4c00742
+[1] Menger, Karl. Géométrie générale. 1954. <http://eudml.org/doc/192644>
 
+[2] J. C. Léger. Menger Curvature and Rectifiability. Annals of Mathematics. 1999, 149, 
+831-869, DOI: 10.2307/121074
+
+[3] Marien J, Prévost C, Sacquin-Mora S. nP-Collabs: Investigating Counterion-Mediated 
+Bridges in the Multiply Phosphorylated Tau-R2 Repeat. J Chem Inf Model. 2024 Aug 26;
+64(16):6570-6582. doi: 10.1021/acs.jcim.4c00742
 """
 from typing import Union, TYPE_CHECKING
 import multiprocessing as mp

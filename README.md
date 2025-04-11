@@ -21,11 +21,15 @@
 [url_license]: https://www.gnu.org/licenses/gpl-2.0
 [url_mda]: https://www.mdanalysis.org
 
-This project aims to provide a simple MDAkit for JIT accelerated Menger curvature calculation. The idea is to associate a value of curvature to as many residues as possible in a polymer. If one has access to several conformations , the average value of the curvature (LC) and its standard deviation (LF) are valuable information to characterize the local dynamics of the backbone. 
+This project aims to provide a simple MDAkit for JIT accelerated Menger curvature calculation. The idea is to associate a value of curvature to as many residues as possible in a polymer. If one has access to several conformations , the average value of the curvature (LC) and its standard deviation (LF) are valuable information to characterize the local dynamics of the backbone.
 
 |![Figure 2: Curvature-Flexibility Plot](figures/Figure_2.svg)|
 |:--:|
 |Range of proteic menger curvature (PMC) values and their associated structural elements. Backbone representations are extracted from the single chain tubulin simulation. Backbone is represented in licorice, Cαs involved in the PMC calculations are in black Van de Waals.|
+
+## Cite
+
+Please consider citing the BiorXiv preprint at [BiorXiv](https://www.biorxiv.org/content/10.1101/2025.04.04.647214v1).
 
 ## Installation
 

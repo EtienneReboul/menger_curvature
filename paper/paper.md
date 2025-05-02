@@ -34,7 +34,7 @@ affiliations:
    ror: 00nvjgv40
 
 date: 11 April 2025
-bibliography: references.bib
+bibliography: paper.bib
 
 ---
 
@@ -51,15 +51,15 @@ We previously introduced an alternative metric, the Local Flexibilities (LFs), t
 
 ## Menger curvatures, Local FLexibilies (LFs) and Local Curvatures (LCs)
 
-A visual schematics of the definition of the Menger curvature is available in Figure \autoref{fig:Figure_1}.
+A visual schematics of the definition of the Menger curvature is available in Figure \autoref{fig:PMC_def}.
 Consider a triangle. The circumcircle of this triangle (i.e. the circle passing through each of its summits) has a radius $R$, and its inverse is defined as the Menger curvature, named after mathematician Karl Menger [@menger1954geometrie]. The curvature of a point in a polymer backbone can therefore be defined by selecting two other points of the backbone and calculating the resulting Menger curvature. We here focus on the context of proteins to demonstrate the use of such a metric.
-We define the PMC($n$) by applying the Menger curvature to the triangle formed by the $C\_\alpha$ of residue $n$ and those of residues $n-s$ and $n+s$ where $s$ is defined as the spacing. LC($n$) is the average value of PMC($n$) over all conformations, and LF($n$) is the standard deviation over all conformations. The $n$ subscript can be dropped for clarity and PMCs, LCs and LFs designate the contracted plural forms of the names. A Python module based on MDAnalysis [@michaud-agrawal_mdanalysis_2011] was previously developed and can be accessed at : <https://github.com/Jules-Marien/Articles/tree/main/_2024_Marien_nPcollabs/Demo_and_scripts_Proteic_Menger_Curvature>. The aim of this implementation is to refine this code, parallelize it and implement it as a fully developed python package as an MDAKit [alibay_mdakits_2023].
+We define the PMC($n$) by applying the Menger curvature to the triangle formed by the $C\_\alpha$ of residue $n$ and those of residues $n-s$ and $n+s$ where $s$ is defined as the spacing. LC($n$) is the average value of PMC($n$) over all conformations, and LF($n$) is the standard deviation over all conformations. The $n$ subscript can be dropped for clarity and PMCs, LCs and LFs designate the contracted plural forms of the names. A Python module based on MDAnalysis [@michaud-agrawal_mdanalysis_2011] was previously developed and can be accessed at : <https://github.com/Jules-Marien/Articles/tree/main/_2024_Marien_nPcollabs/Demo_and_scripts_Proteic_Menger_Curvature>. The aim of this implementation is to refine this code, parallelize it and implement it as a fully developed python package as an MDAKit [@alibay_mdakits_2023].
 
-Further considerations on the choice of spacing $s$ and the biological relevance of the PMCs, LFs and LCs can be accessed in the developed version of this paper (link above). We still provide a structural interpretation of the values of the PMCs in Figure \autoref{fig:Figure\_2}. An example notebook is provided at <https://github.com/EtienneReboul/menger_curvature/blob/main/notebooks/jm01-tutorial.ipynb>
+Further considerations on the choice of spacing $s$ and the biological relevance of the PMCs, LFs and LCs can be accessed in the developed version of this paper (link above). We still provide a structural interpretation of the values of the PMCs in Figure \autoref{fig:PMC_range}. An example notebook is provided at <https://github.com/EtienneReboul/menger_curvature/blob/main/notebooks/jm01-tutorial.ipynb>
 
 ## Overview of the MDAKit implementation
 
-The Menger\_Curvature package contains the class MengerCurvature() which allows the calculation of the Menger curvatures of a single-chain polymer backbone with a spacing $s$. The function is compiled just-in-time thanks to the Numba package [@lam2015numba]. If one wishes to run the calculation in parallel, the \textbf{.run\_parallel()} function can be called. The number of workers can be defined with the \textbf{n\_workers} variable in the call to \textbf{MengerCurvature}, otherwise the class will automatically set \textbf{n\_workers} to the number of CPUs available on the machine minus 2. For simulation of F frames of a protein with N residues, the attribute results.curvature\_array will have size (N − 2s,F), .local\_curvatures and .local\_flexibilities will have size N − 2s. A full example is available as a notebook in the documentation. The complete architecture of the resulting menger object is available in Figure \autoref{fig:Figure\_3}. A comparison of the performances between PBxplore and Menger_Curvature reveals that the latter outperforms the former by more than one order of magnitude, and is in the range of the RMSF (see Table 1).
+The Menger\_Curvature package contains the class MengerCurvature() which allows the calculation of the Menger curvatures of a single-chain polymer backbone with a spacing $s$. The function is compiled just-in-time thanks to the Numba package [@lam2015numba]. If one wishes to run the calculation in parallel, the \textbf{.run\_parallel()} function can be called. The number of workers can be defined with the \textbf{n\_workers} variable in the call to \textbf{MengerCurvature}, otherwise the class will automatically set \textbf{n\_workers} to the number of CPUs available on the machine minus 2. For simulation of F frames of a protein with N residues, the attribute results.curvature\_array will have size (N − 2s,F), .local\_curvatures and .local\_flexibilities will have size N − 2s. A full example is available as a notebook in the documentation. The complete architecture of the resulting menger object is available in Figure \autoref{fig:Menger_Analyser}. A comparison of the performances between PBxplore and Menger_Curvature reveals that the latter outperforms the former by more than one order of magnitude, and is in the range of the RMSF (see Table 1).
 
 |                | PMCs, LCs and LFs (serial) | PMCs, LCs and LFs (parallel) | PBs and Neq   | RMSF         |
 |--------------|--------------------------|---------------------------|--------------|--------------|
@@ -72,11 +72,11 @@ Menger\_Curvature is available in the Python Package Index and on Github : <http
 
 ## Figures
 
-![Schematic representation of the Proteic Menger Cuvarture (PMC) definition. The backbone of the polymer is in black, the $C_\alpha$s are represented by spheres. \label{fig:Figure_1}](../figures/Figure_1.png)
+![Schematic representation of the Proteic Menger Cuvarture (PMC) definition. The backbone of the polymer is in black, the $C_\alpha$s are represented by spheres. \label{fig:PMC_def}](../figures/Figure_1.png)
 
-![Range of PMC values and their associated structural elements. Backbone representations are extracted from the single chain tubulin simulation. Backbone is represented in licorice, $C_\alpha$s involved in the PMC calculations are in black Van de Waals. Ranges for $\beta$-sheets and $\alpha$-helices are based on the ranges of PMC values above 5\% in Figure SI-1. These ranges are not meant to be statistically accurate but to provide the reader with a practical estimate of the values that can be expected. \label{fig:Figure_2}](../figures/Figure_2.svg)
+![Range of PMC values and their associated structural elements. Backbone representations are extracted from the single chain tubulin simulation. Backbone is represented in licorice, $C_\alpha$s involved in the PMC calculations are in black Van de Waals. Ranges for $\beta$-sheets and $\alpha$-helices are based on the ranges of PMC values above 5\% in Figure SI-1. These ranges are not meant to be statistically accurate but to provide the reader with a practical estimate of the values that can be expected. \label{fig:PMC_range}](../figures/Figure_2.svg)
 
-![Architecture of the \textbf{menger\_analyser} object obtained from the \textbf{MengerCurvature}  class. Attribute names are in bold, their type is between chevrons followed by a brief description of their content. Required arguments are in blue, results are in red. \label{fig:Figure_3}](../figures/Figure_3.svg)
+![Architecture of the \textbf{menger\_analyser} object obtained from the \textbf{MengerCurvature}  class. Attribute names are in bold, their type is between chevrons followed by a brief description of their content. Required arguments are in blue, results are in red. \label{fig:Menger_Analyser}](../figures/Figure_3.svg)
 
 ## Acknowledgements
 

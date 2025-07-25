@@ -21,3 +21,4 @@ The rules for this file:
 ### 2025
 
 - LBT <@EtienneReboul>
+- LBT <@Jules-Marien>

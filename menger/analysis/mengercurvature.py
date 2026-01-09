@@ -84,13 +84,24 @@ if TYPE_CHECKING:
 @njit()
 def compute_triangle_edges(frame: np.ndarray, i: int, spacing: int) -> np.ndarray:
     """
-    Calculate the norm of the edges of a triangle given its vertices.
+    Calculate the norm of the edges of a triangle given three vertices from a frame.
 
-    Args:
-        vertices (numpy.ndarray): Array of shape (3, 3) containing the coordinates of the vertices.
+    Parameters
+    ----------
+    frame : np.ndarray
+        Array containing coordinate data from which vertices are extracted.
+    i : int
+        Index of the first vertex in the frame.
+    spacing : int
+        Index spacing between consecutive vertices of the triangle.
 
-    Returns:
-        numpy.ndarray: Array of shape (3,) containing the norm of the edges.
+    Returns
+    -------
+    np.ndarray
+        Array of shape (3,) containing the norms of the three edges of the triangle.
+        - edges_norm[0]: norm of edge between vertices[0] and vertices[1]
+        - edges_norm[1]: norm of edge between vertices[1] and vertices[2]
+        - edges_norm[2]: norm of edge between vertices[2] and vertices[0]
     """
 
     edges_norm = np.zeros(3)
@@ -113,11 +124,15 @@ def compute_triangle_area(edges_norm: np.ndarray) -> float:
     """
     Calculate the area of a triangle given the norm of its edges.
 
-    Args:
-        edges_norm (numpy.ndarray): Array of shape (3,) containing the norm of the edges.
+    Parameters
+    ----------
+    edges_norm : np.ndarray
+        Array of shape (3,) containing the norm of the edges.
 
-    Returns:
-        float: Area of the triangle.
+    Returns
+    -------
+    float
+        Area of the triangle.
     """
 
     semi_perimeter = np.sum(edges_norm) / 2  # Heron's formula
@@ -129,15 +144,21 @@ def compute_triangle_area(edges_norm: np.ndarray) -> float:
 
 @njit()
 def menger_curvature(frame: np.ndarray, spacing: int) -> np.ndarray:
-    """
-    Calculate the Menger Curvature for residues in [spacing+1:N-spacing] in a trajectory 
-    where N is the total number of residues (counting from 1 to N).
+    """Calculate the Menger Curvature for residues in [spacing+1:N-spacing] in a trajectory.
+    
+    Where N is the total number of residues (counting from 1 to N).
 
-    Args:
-        frame (numpy.ndarray): Frame of coordinates of C-alpha atoms.
+    Parameters
+    ----------
+    frame : numpy.ndarray
+        Frame of coordinates of C-alpha atoms.
+    spacing : int
+        Index spacing between consecutive vertices of the triangle.
 
-    Returns:
-        numpy.ndarray: Array of Menger curvature values over time per residue. 
+    Returns
+    -------
+    numpy.ndarray
+        Array of Menger curvature values over time per residue.
     """
 
     # initialize array cumulative displacement

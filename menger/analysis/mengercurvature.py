@@ -48,7 +48,7 @@ Calculate Menger curvature for the chain A of a tubulin protein trajectory in pa
 ...     spacing=2,
 ...     n_workers=4
 ... )
->>> menger_analyser.run_parallel()
+>>> menger_analyser.run(backend="multiprocessing", n_workers=4)
 >>> average_curvature = menger_analyser.results.local_curvatures
 >>> flexibility = menger_analyser.results.local_flexibilities
 >>> menger_curvature = menger_analyser.results.curvature_array
@@ -74,11 +74,13 @@ from functools import partial
 
 import MDAnalysis as mda
 from MDAnalysis.analysis.base import AnalysisBase
+from MDAnalysis.analysis.results import ResultsGroup
 import numpy as np
 from numba import njit
 
 if TYPE_CHECKING:
     from MDAnalysis.core.universe import Universe, AtomGroup
+import warnings
 
 
 @njit()
@@ -356,7 +358,11 @@ class MengerCurvature(AnalysisBase):
         # Check if the spacing is valid
         check_spacing(spacing, self.atomgroup.n_atoms)
 
+    @classmethod
+    def get_supported_backends(cls):
+        return ('serial', 'multiprocessing', 'dask',)
 
+    _analysis_algorithm_is_parallelizable = True
 
     def _prepare(self):
         """Set things up before the analysis loop begins"""
@@ -393,7 +399,12 @@ class MengerCurvature(AnalysisBase):
 
     def run_parallel(self):
         """Run the analysis in parallel using multiprocessing.pool"""
-
+        warnings.warn(
+            "run_parallel() is deprecated and will be removed in a future version. "
+            "Use run(n_workers=N) with the 'multiprocessing' backend or run(n_workers=N, backend='dask') instead.",
+            DeprecationWarning,
+            stacklevel=2
+        )
         # self._prepare()
 
         # make partial object for menger analysis
@@ -417,3 +428,19 @@ class MengerCurvature(AnalysisBase):
             self.results.curvature_array, axis=0)
         self.results.local_flexibilities = np.std(
             self.results.curvature_array, axis=0)
+
+    def _get_aggregator(self):
+        """Return a ResultsGroup to aggregate parallel results.
+        
+        Returns
+        -------
+        ResultsGroup
+            Aggregator that knows how to merge curvature results
+        """
+        return ResultsGroup(
+            lookup={
+                'curvature_array': ResultsGroup.ndarray_vstack,  # Changed from hstack to vstack
+                'local_curvatures': ResultsGroup.ndarray_mean,
+                'local_flexibilities': ResultsGroup.ndarray_mean,
+            }
+        )

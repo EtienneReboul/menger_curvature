@@ -91,7 +91,7 @@ class TestMengerCurvature:
     @pytest.mark.parametrize(
         "params_dict",
         get_test_parameters())
-    def test_menger_curvature_parallel(self, params_dict):
+    def test_menger_curvature_parallel_old(self, params_dict):
         """Test that parallel execution gives same results as serial"""
 
         universe = make_universe(
@@ -107,6 +107,41 @@ class TestMengerCurvature:
         # Compare results
         compare_results(mc_parallel.results, params_dict)
 
+    @pytest.mark.parametrize(
+        "params_dict",
+        get_test_parameters())
+    def test_menger_curvature_parallel_multiprocessing(self, params_dict):
+        """Test that multiprocessing backend produces consistent results"""
+
+        universe = make_universe(
+            params_dict["topology_name"], params_dict["trajectory_name"])
+
+        # Run analysis with multiprocessing backend
+        menger_analyser = MengerCurvature(
+            universe, params_dict["select"],
+            params_dict['spacing'])
+        menger_analyser.run(backend='multiprocessing', n_workers=2)
+
+        # Compare results
+        compare_results(menger_analyser.results, params_dict)
+
+    @pytest.mark.parametrize(
+        "params_dict",
+        get_test_parameters())
+    def test_menger_curvature_parallel_dask(self, params_dict):
+        """Test that dask backend produces consistent results"""
+
+        universe = make_universe(
+            params_dict["topology_name"], params_dict["trajectory_name"])
+
+        # Run analysis with dask backend
+        menger_analyser = MengerCurvature(
+            universe, params_dict["select"],
+            params_dict['spacing'])
+        menger_analyser.run(backend='dask', n_workers=2)
+
+        # Compare results
+        compare_results(menger_analyser.results, params_dict)
 
 @pytest.mark.parametrize("spacing,n_atoms,expected_error,match", [
     (0, 10, ValueError, "Spacing must be at least 1"),

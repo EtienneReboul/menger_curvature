@@ -159,7 +159,7 @@ menger_analyser = MengerCurvature(
     select="name CA and chainID A",
     spacing=2,n_workers=4
     )
-menger_analyser.run_parallel()
+menger_analyser.run(backend="multiprocessing", n_workers=4)
 average_curvature = menger_analyser.results.local_curvatures
 flexibility = menger_analyser.results.local_flexibilities
 menger_curvature = menger_analyser.results.curvature_array

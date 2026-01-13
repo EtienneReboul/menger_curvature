@@ -62,16 +62,18 @@ jobs:
         show-channel-urls: true
 
     - name: Install MDAnalysis version
-      uses: MDAnalysis/install-mdanalysis@main
-      with:
-        version: ${{ matrix.mdanalysis-version }}
-        install-tests: false
-        installer: mamba
-        shell: bash -l {0}
+      run: |
+        if [[ "${{ matrix.mdanalysis-version }}" == "develop" ]]; then
+          pip install git+https://github.com/MDAnalysis/mdanalysis.git@develop#subdirectory=package
+        else
+          mamba install -y -c conda-forge MDAnalysis
+        fi
+      shell: bash -l {0}
       
     - name: Verify MDAnalysis installation
       run: |
         python -c "import MDAnalysis; print(f'MDAnalysis version: {MDAnalysis.__version__}')"
+      shell: bash -l {0}
 
     - name: Install package
       run: |
@@ -151,4 +153,3 @@ jobs:
         test -n "${DISTRIBUTION}" || { echo "no distribution dist/menger_curvature-*.tar.gz found"; exit 1; }
         echo "twine check $DISTRIBUTION"
         twine check $DISTRIBUTION
-

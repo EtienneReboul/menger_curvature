@@ -13,6 +13,9 @@ dependencies:
   # numba
   - numba
 
+  # dask
+  - dask
+
   # Testing
   - pytest
   - pytest-cov
@@ -22,4 +25,5 @@ dependencies:
   # Pip-only installs
   #- pip:
   #  - codecov
+
 

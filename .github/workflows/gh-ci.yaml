@@ -165,3 +165,11 @@ jobs:
         test -n "${DISTRIBUTION}" || { echo "no distribution dist/menger_curvature-*.tar.gz found"; exit 1; }
         echo "twine check $DISTRIBUTION"
         twine check $DISTRIBUTION
+
+
+  coverage:
+    env:
+      NUMBA_DISABLE_JIT: 1
+    steps:
+      - name: Run tests with coverage
+        run: pytest --cov=menger tests/

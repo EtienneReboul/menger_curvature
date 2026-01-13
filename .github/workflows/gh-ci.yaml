@@ -89,15 +89,56 @@ jobs:
         conda list
 
     - name: Run tests
+      env:
+        MPLBACKEND: Agg
+      run: |
+        pytest -n 2 -v --color=yes menger/tests/
+
+
+  coverage:
+    if: "github.repository == 'EtienneReboul/menger_curvature' && github.event_name != 'schedule'"
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install conda dependencies
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        python-version: "3.11"
+        environment-file: devtools/conda-envs/test_env.yaml
+        add-pip-as-python-dependency: true
+        miniforge-version: "latest"
+        use-mamba: true
+        channels: conda-forge
+        activate-environment: menger_curvature-test
+        auto-update-conda: true
+        auto-activate-base: false
+        show-channel-urls: true
+
+    - name: Install MDAnalysis
+      run: |
+        mamba install -y -c conda-forge MDAnalysis
+      shell: bash -l {0}
+
+    - name: Install package
+      run: |
+        python -m pip install . --no-deps
+      shell: bash -l {0}
+
+    - name: Run tests with coverage
+      env:
+        MPLBACKEND: Agg
+        NUMBA_DISABLE_JIT: 1
       run: |
         pytest -n 2 -v --cov=menger --cov-report=xml --color=yes menger/tests/
+      shell: bash -l {0}
 
-    - name: codecov
-      if: github.repository == 'EtienneReboul/menger_curvature' && github.event_name != 'schedule'
+    - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v4
       with:
         file: coverage.xml
-        name: codecov-${{ matrix.os }}-py${{ matrix.python-version }}
+        name: codecov-ubuntu-py3.11
         verbose: true
         fail_ci_if_error: true
 

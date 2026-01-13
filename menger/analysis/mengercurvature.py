@@ -1,7 +1,7 @@
 """This module contains functionality for calculating Menger curvature along trajectories.
 
 The Menger curvature provides information about local geometry by calculating the reciprocal
-radius of the circumscribed circle passing through three points. 
+radius of the circumscribed circle passing through three points.
 
 The module contains:
 - menger_curvature(): numba function to compute curvature for a single frame
@@ -61,26 +61,29 @@ References
 ----------
 [1] Menger, Karl. Géométrie générale. 1954. <http://eudml.org/doc/192644>
 
-[2] J. C. Léger. Menger Curvature and Rectifiability. Annals of Mathematics. 1999, 149, 
+[2] J. C. Léger. Menger Curvature and Rectifiability. Annals of Mathematics. 1999, 149,
 831-869, DOI: 10.2307/121074
 
-[3] Marien J, Prévost C, Sacquin-Mora S. nP-Collabs: Investigating Counterion-Mediated 
+[3] Marien J, Prévost C, Sacquin-Mora S. nP-Collabs: Investigating Counterion-Mediated
 Bridges in the Multiply Phosphorylated Tau-R2 Repeat. J Chem Inf Model. 2024 Aug 26;
 64(16):6570-6582. doi: 10.1021/acs.jcim.4c00742
 """
-from typing import Union, TYPE_CHECKING
 import multiprocessing as mp
+import warnings
 from functools import partial
+from typing import TYPE_CHECKING, Union
 
 import MDAnalysis as mda
+import numpy as np
 from MDAnalysis.analysis.base import AnalysisBase
 from MDAnalysis.analysis.results import ResultsGroup
-import numpy as np
 from numba import njit
 
+from menger.data.dummy_data import DummyData
+
 if TYPE_CHECKING:
-    from MDAnalysis.core.universe import Universe, AtomGroup
-import warnings
+    from MDAnalysis.core.universe import AtomGroup, Universe
+
 
 
 @njit()
@@ -111,8 +114,8 @@ def compute_triangle_edges(frame: np.ndarray, i: int, spacing: int) -> np.ndarra
 
     # Get the coordinates of the vertices of the triangle
     vertices[0] = frame[i]
-    vertices[1] = frame[i+spacing]
-    vertices[2] = frame[i+2*spacing]
+    vertices[1] = frame[i + spacing]
+    vertices[2] = frame[i + 2 * spacing]
 
     edges_norm[0] = np.linalg.norm(vertices[0] - vertices[1])
     edges_norm[1] = np.linalg.norm(vertices[1] - vertices[2])
@@ -138,8 +141,7 @@ def compute_triangle_area(edges_norm: np.ndarray) -> float:
     """
 
     semi_perimeter = np.sum(edges_norm) / 2  # Heron's formula
-    triangle_area = np.sqrt(
-        semi_perimeter * np.prod(semi_perimeter - edges_norm))
+    triangle_area = np.sqrt(semi_perimeter * np.prod(semi_perimeter - edges_norm))
 
     return triangle_area
 
@@ -147,7 +149,7 @@ def compute_triangle_area(edges_norm: np.ndarray) -> float:
 @njit()
 def menger_curvature(frame: np.ndarray, spacing: int) -> np.ndarray:
     """Calculate the Menger Curvature for residues in [spacing+1:N-spacing] in a trajectory.
-    
+
     Where N is the total number of residues (counting from 1 to N).
 
     Parameters
@@ -164,11 +166,10 @@ def menger_curvature(frame: np.ndarray, spacing: int) -> np.ndarray:
     """
 
     # initialize array cumulative displacement
-    frame_curvature = np.zeros(frame.shape[0]-2*spacing)
+    frame_curvature = np.zeros(frame.shape[0] - 2 * spacing)
 
     # Loop over residues
     for i in range(frame_curvature.shape[0]):
-
         # Calculate the norm of the edges of the triangle
         edges_norm = compute_triangle_edges(frame, i, spacing)
 
@@ -180,10 +181,10 @@ def menger_curvature(frame: np.ndarray, spacing: int) -> np.ndarray:
 
     return frame_curvature
 
-def menger_curvature_wrapper( frame_index : int,
-                             universe : mda.Universe,
-                             atom_sel : str,
-                             spacing : int ) -> np.ndarray:
+
+def menger_curvature_wrapper(
+    frame_index: int, universe: mda.Universe, atom_sel: str, spacing: int
+) -> np.ndarray:
     """Wrapper function for parallel computation of Menger curvature
      on molecular dynamics trajectories.
     This function prepares the data from a specific frame of a molecular dynamics trajectory
@@ -209,7 +210,7 @@ def menger_curvature_wrapper( frame_index : int,
     across multiple trajectory frames.
     """
     # change frame to the desired index
-    _= universe.trajectory[frame_index]
+    _ = universe.trajectory[frame_index]
     positions = universe.select_atoms(atom_sel).positions
     return menger_curvature(positions, spacing)
 
@@ -223,14 +224,17 @@ def check_spacing(spacing: int, n_atoms: int) -> None:
         n_atoms (int): Number of atoms in the trajectory.
     """
     if spacing is None:
-        raise ValueError("Spacing must be provided. " +
-                         "We recommend a spacing of 2 for proteic backbones")
+        raise ValueError(
+            "Spacing must be provided. "
+            + "We recommend a spacing of 2 for proteic backbones"
+        )
     if not isinstance(spacing, int):
         raise TypeError("Spacing must be an integer")
     if spacing < 1:
         raise ValueError("Spacing must be at least 1")
-    if 2*spacing >= n_atoms-1:
+    if 2 * spacing >= n_atoms - 1:
         raise ValueError("Spacing is too large for the number of atoms")
+
 
 def check_select(universe, select):
     """
@@ -292,11 +296,11 @@ class MengerCurvature(AnalysisBase):
     Results
     -------
     curvature_array: numpy.ndarray
-        Array of shape (n_frames, n_atoms - 2*spacing) storing the Menger curvature 
+        Array of shape (n_frames, n_atoms - 2*spacing) storing the Menger curvature
         for each triplet of points
     local_curvatures: numpy.ndarray
         Mean curvature at each position over all frames
-    local_flexibilities: numpy.ndarray 
+    local_flexibilities: numpy.ndarray
         Standard deviation of curvature at each position
 
     Notes
@@ -308,6 +312,7 @@ class MengerCurvature(AnalysisBase):
     while the local flexibility indicates the range of curvatures available to the triplet.
     Within the context of the proteic backbone, points would usually correspond to C-alpha carbons
     """
+
     is_compile_numba = False
 
     def __init__(
@@ -315,8 +320,8 @@ class MengerCurvature(AnalysisBase):
         universe_or_atomgroup: Union["Universe", "AtomGroup"],
         select: str | None = None,
         spacing: int | None = None,
-        n_workers: int |None = None,
-        **kwargs
+        n_workers: int | None = None,
+        **kwargs,
     ):
         # the below line must be kept to initialize the AnalysisBase class!
         super().__init__(universe_or_atomgroup.trajectory, **kwargs)
@@ -328,29 +333,18 @@ class MengerCurvature(AnalysisBase):
 
         # compile the numba function if it hasn't been compiled yet
         if self.is_compile_numba:
+            dummy_data = DummyData()
             _ = menger_curvature(
-                frame=np.array([[13.31, 34.22, 34.36],
-                                [16.89, 33.47, 35.28],
-                                [20.4, 34.65, 34.76],
-                                [23.99, 33.21, 34.96],
-                                [27.52, 34.44, 34.73],
-                                [31.27, 33.34, 35.16],
-                                [34.95, 34.55, 34.84],
-                                [38.57, 33.49, 35.07],
-                                [42.11, 34.67, 34.64],
-                                [45.72, 33.37, 34.84],
-                                [49.49, 34.3, 34.62],
-                                [53.24, 33.33, 34.85],
-                                [56.58, 35.18, 34.74]],
-                               dtype=np.float32),
-                spacing=2)
+                frame=dummy_data.frame,
+                spacing=2,
+            )
             self.is_compile_numba = True
 
         self.universe = universe_or_atomgroup.universe
         self.atomgroup = universe_or_atomgroup.select_atoms(select)
         self.sel = select
         self.spacing = spacing
-        self.n_workers = n_workers if n_workers is not None else mp.cpu_count()-2
+        self.n_workers = n_workers if n_workers is not None else mp.cpu_count() - 2
 
         # check if the selection is valid
         check_select(self.universe, select)
@@ -360,7 +354,11 @@ class MengerCurvature(AnalysisBase):
 
     @classmethod
     def get_supported_backends(cls):
-        return ('serial', 'multiprocessing', 'dask',)
+        return (
+            "serial",
+            "multiprocessing",
+            "dask",
+        )
 
     _analysis_algorithm_is_parallelizable = True
 
@@ -373,15 +371,17 @@ class MengerCurvature(AnalysisBase):
         # the number of atoms with negative coordinates
         # in each frame.
         self.results.curvature_array = np.zeros(
-            (self.n_frames, self.atomgroup.n_atoms - 2*self.spacing),
+            (self.n_frames, self.atomgroup.n_atoms - 2 * self.spacing),
             dtype=np.float32,  # max should 1 Angström  so float32 is
             # enough even with mean and standard deviation porbably float16
             # would work too
         )
         self.results.local_curvatures = np.zeros(
-            self.atomgroup.n_atoms - 2*self.spacing)
+            self.atomgroup.n_atoms - 2 * self.spacing
+        )
         self.results.local_flexibilities = np.zeros(
-            self.atomgroup.n_atoms - 2*self.spacing)
+            self.atomgroup.n_atoms - 2 * self.spacing
+        )
 
     def _single_frame(self):
         """Calculate data from a single frame of trajectory"""
@@ -393,26 +393,27 @@ class MengerCurvature(AnalysisBase):
         # The trajectory positions update automatically
         coords = self.atomgroup.positions
 
-
         self.results.curvature_array[self._frame_index] = menger_curvature(
-            coords, self.spacing)
+            coords, self.spacing
+        )
 
     def run_parallel(self):
         """Run the analysis in parallel using multiprocessing.pool"""
         warnings.warn(
             "run_parallel() is deprecated and will be removed in a future version. "
-            "Use run(n_workers=N) with the 'multiprocessing' backend or run(n_workers=N, backend='dask') instead.",
+            "Use run(n_workers=N) with the 'multiprocessing' or 'dask' backend ",
             DeprecationWarning,
-            stacklevel=2
+            stacklevel=2,
         )
         # self._prepare()
 
         # make partial object for menger analysis
-        mcc = partial(menger_curvature_wrapper,
-                      universe= self.universe,
-                      atom_sel=self.sel,
-                      spacing=self.spacing
-                      )
+        mcc = partial(
+            menger_curvature_wrapper,
+            universe=self.universe,
+            atom_sel=self.sel,
+            spacing=self.spacing,
+        )
 
         #  do pool parralelization
         with mp.Pool(self.n_workers) as pool:
@@ -424,14 +425,12 @@ class MengerCurvature(AnalysisBase):
     def _conclude(self):
         """Calculate the final results of the analysis"""
 
-        self.results.local_curvatures = np.mean(
-            self.results.curvature_array, axis=0)
-        self.results.local_flexibilities = np.std(
-            self.results.curvature_array, axis=0)
+        self.results.local_curvatures = np.mean(self.results.curvature_array, axis=0)
+        self.results.local_flexibilities = np.std(self.results.curvature_array, axis=0)
 
     def _get_aggregator(self):
         """Return a ResultsGroup to aggregate parallel results.
-        
+
         Returns
         -------
         ResultsGroup
@@ -439,8 +438,8 @@ class MengerCurvature(AnalysisBase):
         """
         return ResultsGroup(
             lookup={
-                'curvature_array': ResultsGroup.ndarray_vstack,  # Changed from hstack to vstack
-                'local_curvatures': ResultsGroup.ndarray_mean,
-                'local_flexibilities': ResultsGroup.ndarray_mean,
+                "curvature_array": ResultsGroup.ndarray_vstack,  # Changed from hstack to vstack
+                "local_curvatures": ResultsGroup.ndarray_mean,
+                "local_flexibilities": ResultsGroup.ndarray_mean,
             }
         )

@@ -15,18 +15,16 @@
 # In case the project was not installed
 import os
 import sys
-sys.path.insert(0, os.path.abspath("../.."))
-import menger  # noqa
 
+sys.path.insert(0, os.path.abspath("../.."))
 
 
 # -- Project information -----------------------------------------------------
 
 project = "Menger_Curvature"
-copyright = (
-    "2025, LBT. "
-    "Project structure based on the "
-    "MDAnalysis Cookiecutter version 0.1"
+# it supposed to override the copyright , disable the pylint warning
+copyright = (# pylint: disable=redefined-builtin
+    "2025, LBT. Project structure based on the MDAnalysis Cookiecutter version 0.1"
 )
 author = "LBT"
 
@@ -60,9 +58,7 @@ autosummary_generate = True
 # This skips generating an autodoc of the test module
 # when using the autosummary directive that is included
 # by default in api.rst
-autodoc_mock_imports = [
-    'menger.tests'
-]
+autodoc_mock_imports = ["menger.tests"]
 napoleon_google_docstring = False
 napoleon_use_param = False
 napoleon_use_ivar = True
@@ -107,9 +103,7 @@ html_theme = "mdanalysis_sphinx_theme"
 # documentation.
 #
 html_theme_options = {
-
     "mda_official": False,
-
 }
 
 # Set your logo and favicon here -- replace the placeholders!
@@ -145,15 +139,12 @@ latex_elements = {
     # The paper size ("letterpaper" or "a4paper").
     #
     # "papersize": "letterpaper",
-
     # The font size ("10pt", "11pt" or "12pt").
     #
     # "pointsize": "10pt",
-
     # Additional stuff for the LaTeX preamble.
     #
     # "preamble": "",
-
     # Latex figure (float) alignment
     #
     # "figure_align": "htbp",
@@ -163,8 +154,13 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, "menger_curvature.tex", "Menger_Curvature Documentation",
-     "menger_curvature", "manual"),
+    (
+        master_doc,
+        "menger_curvature.tex",
+        "Menger_Curvature Documentation",
+        "menger_curvature",
+        "manual",
+    ),
 ]
 
 
@@ -173,8 +169,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, "menger_curvature", "Menger_Curvature Documentation",
-     [author], 1)
+    (master_doc, "menger_curvature", "Menger_Curvature Documentation", [author], 1)
 ]
 
 
@@ -184,9 +179,15 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, "menger_curvature", "Menger_Curvature Documentation",
-     author, "menger_curvature", "This project aims to provide a simple MDAkit for JIT accelerated Menger curvature calculation",
-     "Miscellaneous"),
+    (
+        master_doc,
+        "menger_curvature",
+        "Menger_Curvature Documentation",
+        author,
+        "menger_curvature",
+        "This project provide a simple MDAkit for JIT accelerated Menger curvature calculation",
+        "Miscellaneous",
+    ),
 ]
 
 

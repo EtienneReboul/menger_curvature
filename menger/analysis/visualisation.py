@@ -190,7 +190,9 @@ class MengerCurvaturePlotter:
         plt.plot(self.range_residues, self.menger_results.local_flexibilities)
 
         plt.xlabel("Residues", fontsize=self.config.figure.font_size)
-        plt.ylabel("Local Flexibility ($Å^{-1}$)", fontsize=self.config.figure.font_size)
+        plt.ylabel(
+            "Local Flexibility ($Å^{-1}$)", fontsize=self.config.figure.font_size
+        )
 
         if threshold is not None:
             plt.axhline(
@@ -198,5 +200,74 @@ class MengerCurvaturePlotter:
                 linestyle=self.config.flexibility_threshold_linestyle,
                 color=self.config.flexibility_threshold_color,
             )
+
+        return fig
+
+    def plot_correlation_matrix(
+        self, figsize: None | tuple[int, int] = None, on: str = "local_curvature"
+    ):
+        """
+        Plot correlation matrix of local curvature between residues.
+
+        Args:
+            figsize: Figure size for the plot for overriding default
+            on: Specify whether to compute correlation on 'local_curvature' or 'local_flexibility'
+        """
+
+        # Set figure size to default if not provided
+        if figsize is None:
+            figsize = self.config.figure.figsize
+
+        fig = plt.figure(figsize=figsize)
+        ax = plt.axes()
+
+        # split the curvature array in 2
+        half_size = self.menger_results.curvature_array.shape[0] // 2
+        curvature_array_first_half = self.menger_results.curvature_array[:half_size, :]
+        curvature_array_second_half = self.menger_results.curvature_array[half_size:, :]
+
+        if on == "local_curvature":
+            curvature_array_first_half = np.mean(curvature_array_first_half, axis=0)
+            curvature_array_second_half = np.mean(curvature_array_second_half, axis=0)
+        elif on == "local_flexibility":
+            curvature_array_first_half = np.std(curvature_array_first_half, axis=0)
+            curvature_array_second_half = np.std(curvature_array_second_half, axis=0)
+
+        # compute correlation matrix
+        correlation_matrix = np.corrcoef(
+            curvature_array_first_half, curvature_array_second_half
+        )
+        im = ax.imshow(
+            correlation_matrix,
+            vmin=0,
+            vmax=1,
+        )
+
+        # Add text annotations to display values in each cell
+        for i in range(correlation_matrix.shape[0]):
+            for j in range(correlation_matrix.shape[1]):
+                _ = ax.text(
+                    j,
+                    i,
+                    f"{correlation_matrix[i, j]:.3f}",
+                    ha="center",
+                    va="center",
+                    color="black",
+                    fontsize=12,
+                )
+
+        # Set tick positions and labels
+        ax.set_xticks([0, 1])
+        ax.set_yticks([0, 1])
+        ax.set_xticklabels(["First half", "Second half"], fontsize=14)
+        ax.set_yticklabels(["First half", "Second half"], fontsize=14)
+
+        title_legend = (
+            "Local Curvature" if on == "local_curvature" else "Local Flexibility"
+        )
+        ax.set_title(f"Correlation Matrix on {title_legend}", fontsize=14)
+
+        cbar = plt.colorbar(im, ax=ax)
+        cbar.set_label(label="Correlation", fontsize=14)
 
         return fig

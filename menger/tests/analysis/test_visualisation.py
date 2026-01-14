@@ -58,3 +58,17 @@ def test_plot_local_flexibility_with_threshold(mock_results):
     assert any(
         line.get_ydata()[0] == 0.1 for line in fig.axes[0].lines
     )  # Check if threshold line is drawn
+
+def test_plot_correlation_matrix_local_curvature(mock_results):
+    plotter = MengerCurvaturePlotter(mock_results, spacing=2)
+    fig = plotter.plot_correlation_matrix(on="local_curvature")
+
+    assert fig is not None
+    assert len(fig.axes) == 2  # Check if two axes are created (heatmap + colorbar)
+
+def test_plot_correlation_matrix_local_flexibility(mock_results):
+    plotter = MengerCurvaturePlotter(mock_results, spacing=2)
+    fig = plotter.plot_correlation_matrix(on="local_flexibility")
+
+    assert fig is not None
+    assert len(fig.axes) == 2  # Check if two axes are created (heatmap + colorbar)

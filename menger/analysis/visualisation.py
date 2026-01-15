@@ -211,7 +211,8 @@ class MengerCurvaturePlotter:
 
         Args:
             figsize: Figure size for the plot for overriding default
-            observable: Specify whether to compute correlation on 'local_curvature' or 'local_flexibility'
+            observable: Specify whether to compute correlation on 'local_curvature' 
+                        or 'local_flexibility'
         """
 
         # Set figure size to default if not provided

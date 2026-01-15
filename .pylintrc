@@ -438,8 +438,8 @@ disable=raw-checker-failed,
         useless-suppression,
         deprecated-pragma,
         use-symbolic-message-instead,
-        use-implicit-booleaness-not-comparison-to-string,
-        use-implicit-booleaness-not-comparison-to-zero,
+        # use-implicit-booleaness-not-comparison-to-string,  # REMOVED - invalid
+        # use-implicit-booleaness-not-comparison-to-zero,  # REMOVED - invalid
         unused-import,
         import-error,
         invalid-name,

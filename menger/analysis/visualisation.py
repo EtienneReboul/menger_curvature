@@ -204,14 +204,14 @@ class MengerCurvaturePlotter:
         return fig
 
     def plot_correlation_matrix(
-        self, figsize: None | tuple[int, int] = None, on: str = "local_curvature"
+        self, figsize: None | tuple[int, int] = None, observable: str = "local_curvature"
     ):
         """
         Plot correlation matrix of local curvature between residues.
 
         Args:
             figsize: Figure size for the plot for overriding default
-            on: Specify whether to compute correlation on 'local_curvature' or 'local_flexibility'
+            observable: Specify whether to compute correlation on 'local_curvature' or 'local_flexibility'
         """
 
         # Set figure size to default if not provided
@@ -226,10 +226,10 @@ class MengerCurvaturePlotter:
         curvature_array_first_half = self.menger_results.curvature_array[:half_size, :]
         curvature_array_second_half = self.menger_results.curvature_array[half_size:, :]
 
-        if on == "local_curvature":
+        if observable == "local_curvature":
             curvature_array_first_half = np.mean(curvature_array_first_half, axis=0)
             curvature_array_second_half = np.mean(curvature_array_second_half, axis=0)
-        elif on == "local_flexibility":
+        elif observable == "local_flexibility":
             curvature_array_first_half = np.std(curvature_array_first_half, axis=0)
             curvature_array_second_half = np.std(curvature_array_second_half, axis=0)
 
@@ -263,7 +263,7 @@ class MengerCurvaturePlotter:
         ax.set_yticklabels(["First half", "Second half"], fontsize=14)
 
         title_legend = (
-            "Local Curvature" if on == "local_curvature" else "Local Flexibility"
+            "Local Curvature" if observable == "local_curvature" else "Local Flexibility"
         )
         ax.set_title(f"Correlation Matrix on {title_legend}", fontsize=14)
 

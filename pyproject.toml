@@ -40,7 +40,7 @@ doc = [
 
 [project.urls]
 source = "https://github.com/EtienneReboul/menger_curvature"
-documentation = "https://menger_curvature.readthedocs.io"
+documentation = "https://menger-curvature.readthedocs.io"
 
 [tool.setuptools.packages.find]
 include = ["menger"]

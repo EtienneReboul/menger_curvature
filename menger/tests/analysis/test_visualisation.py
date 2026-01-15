@@ -61,14 +61,14 @@ def test_plot_local_flexibility_with_threshold(mock_results):
 
 def test_plot_correlation_matrix_local_curvature(mock_results):
     plotter = MengerCurvaturePlotter(mock_results, spacing=2)
-    fig = plotter.plot_correlation_matrix(on="local_curvature")
+    fig = plotter.plot_correlation_matrix(observable="local_curvature")
 
     assert fig is not None
     assert len(fig.axes) == 2  # Check if two axes are created (heatmap + colorbar)
 
 def test_plot_correlation_matrix_local_flexibility(mock_results):
     plotter = MengerCurvaturePlotter(mock_results, spacing=2)
-    fig = plotter.plot_correlation_matrix(on="local_flexibility")
+    fig = plotter.plot_correlation_matrix(observable="local_flexibility")
 
     assert fig is not None
     assert len(fig.axes) == 2  # Check if two axes are created (heatmap + colorbar)

@@ -56,9 +56,10 @@ jobs:
         miniforge-version: "latest"
         use-mamba: true
         channels: conda-forge
+        conda-remove-defaults: true
         activate-environment: menger_curvature-test
         auto-update-conda: true
-        auto-activate-base: false
+        auto-activate: false
         show-channel-urls: true
 
     - name: Install MDAnalysis version
@@ -111,9 +112,10 @@ jobs:
         miniforge-version: "latest"
         use-mamba: true
         channels: conda-forge
+        conda-remove-defaults: true
         activate-environment: menger_curvature-test
         auto-update-conda: true
-        auto-activate-base: false
+        auto-activate: false
         show-channel-urls: true
 
     - name: Install MDAnalysis

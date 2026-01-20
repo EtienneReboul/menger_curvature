@@ -1,7 +1,7 @@
 name: menger_curvature-test
 channels:
   - conda-forge
-  - defaults
+  - nodefaults
 dependencies:
   # Base depends
   - python

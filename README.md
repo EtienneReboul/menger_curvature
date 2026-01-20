@@ -99,6 +99,12 @@ conda deactivate
 
 ### With pip
 
+To install from pipy, run :
+
+```bash
+pip install menger-curvature 
+```
+
 To build the package from source, run:
 
 ```bash

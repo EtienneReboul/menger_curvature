@@ -16,6 +16,23 @@ The rules for this file:
     * YYYY-MM-DD date format (following ISO 8601)
   * accompany each entry with github issue/PR number (Issue #xyz)
 -->
+## [1.1.0] - 2026-01-20
+
+### Added in 1.1.0
+
+- Added a visualisation module
+- Implement multiprocessing via Analysis class (multiprocessing/dask backend)
+- Added section to tutorial notebook  for convergence analysis
+
+### Changed in 1.1.0
+
+- Refactor notebook tutorial to use visualisation module
+- Depreciated the run_parallel method of menger_curvature class
+
+### Notes for 1.1.1
+
+Hosting data  on Zenodo and retrieving it was tried but did not lead to an acceptable outcome.
+
 ## [1.0.0] - 2024-04-03
 
 ### Added in 1.0.0

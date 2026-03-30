@@ -78,11 +78,11 @@ Menger\_Curvature is available in the Python Package Index and on Github : <http
 
 ## Figures
 
-![Schematic representation of the Proteic Menger Cuvarture (PMC) definition. The backbone of the polymer is in black, the $C_\alpha$s are represented by spheres. \label{fig:PMC_def}](../figures/Figure_1.png)
+![Schematic representation of the Proteic Menger Cuvarture (PMC) definition. The backbone of the polymer is in black, the $C_\alpha$s are represented by spheres. \label{fig:PMC_def}](../figures/Figure_1.png){width=85%}
 
-![Range of PMC values and their associated structural elements. Backbone representations are extracted from the single chain tubulin simulation. Backbone is represented in licorice, $C_\alpha$s involved in the PMC calculations are in black Van de Waals. Ranges for $\beta$-sheets and $\alpha$-helices are based on the ranges of PMC values above 5\% in Figure SI-1. These ranges are not meant to be statistically accurate but to provide the reader with a practical estimate of the values that can be expected. \label{fig:PMC_range}](../figures/Figure_2.svg)
+![Range of PMC values and their associated structural elements. Backbone representations are extracted from the single chain tubulin simulation. Backbone is represented in licorice, $C_\alpha$s involved in the PMC calculations are in black Van de Waals. Ranges for $\beta$-sheets and $\alpha$-helices are based on the ranges of PMC values above 5\% in Figure SI-1. These ranges are not meant to be statistically accurate but to provide the reader with a practical estimate of the values that can be expected. \label{fig:PMC_range}](../figures/Figure_2.svg){width=120%}
 
-![Architecture of the \textbf{menger\_analyser} object obtained from the \textbf{MengerCurvature}  class. Attribute names are in bold, their type is between chevrons followed by a brief description of their content. Required arguments are in blue, results are in red. \label{fig:Menger_Analyser}](../figures/Figure_3.svg)
+![Architecture of the \textbf{menger\_analyser} object obtained from the \textbf{MengerCurvature}  class. Attribute names are in bold, their type is between chevrons followed by a brief description of their content. Required arguments are in blue, results are in red. \label{fig:Menger_Analyser}](../figures/Figure_3.svg){width=120% }
 
 ## Acknowledgements
 

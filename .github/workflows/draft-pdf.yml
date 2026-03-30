@@ -15,8 +15,8 @@ on:
     branches:
       - main
     paths:
-      - 'menger/paper/**'
-      - 'menger/figures/**'
+      - 'paper/**'
+      - 'figures/**'
       - '.github/workflows/draft-pdf.yml'
   
   # Trigger on PR, but only if paper/figures changed

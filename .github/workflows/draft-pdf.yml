@@ -1,5 +1,8 @@
 name: Paper Draft
 
+permissions:
+  contents: write
+
 on:
   # Manual trigger
   workflow_dispatch:
@@ -50,3 +53,35 @@ jobs:
         with:
           name: paper-draft-${{ github.sha }}
           path: paper/paper.pdf
+
+      - name: Commit updated PDF to repository
+        if: github.event_name != 'pull_request'
+        run: |
+          set -euo pipefail
+
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && -n "${{ inputs.ref }}" ]]; then
+            target_branch="${{ inputs.ref }}"
+          else
+            target_branch="${{ github.ref_name }}"
+          fi
+
+          if ! git ls-remote --exit-code --heads origin "$target_branch" >/dev/null 2>&1; then
+            echo "The selected ref '$target_branch' is not a remote branch."
+            echo "Use a branch name for workflow_dispatch if you want the workflow to push updates."
+            exit 1
+          fi
+
+          git checkout -B "$target_branch" "origin/$target_branch"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add paper/paper.pdf
+
+          if git diff --cached --quiet; then
+            echo "No PDF change detected; nothing to commit."
+            exit 0
+          fi
+
+          git commit -m "Update draft PDF [skip ci]"
+          git pull --rebase origin "$target_branch"
+          git push origin HEAD:"$target_branch"

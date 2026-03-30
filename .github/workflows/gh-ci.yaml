@@ -3,9 +3,13 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "menger/**"
   pull_request:
     branches:
       - main
+    paths:
+      - "menger/**"
   schedule:
     # Weekly tests at midnight on Sundays run on main by default:
     #   Scheduled workflows run on the latest commit on the default or base branch.

@@ -68,7 +68,7 @@ Ensure that you have [conda](https://docs.conda.io/projects/conda/en/latest/user
 Create a virtual environment and activate it:
 
 ```bash
-conda create --name menger_curvature
+conda create --name menger_curvature python=3.12
 conda activate menger_curvature
 ```
 

@@ -6,9 +6,10 @@ from menger.analysis.visualisation import MengerCurvaturePlotter
 # Mock Results class
 class MockResults:
     def __init__(self):
-        self.curvature_array = np.random.rand(500, 448)  # 500 frames, 448 atoms
-        self.local_curvatures = np.random.rand(448)  # 448 atoms
-        self.local_flexibilities = np.random.rand(448)  # 448 atoms
+        self.curvature_array = np.random.rand(10, 6)
+        self.local_curvatures = np.random.rand(6)
+        self.local_flexibilities = np.random.rand(6)
+        self.residue_ids = np.arange(427, 437)
 
 
 @pytest.fixture(name="mock_results")
@@ -39,6 +40,7 @@ def test_plot_local_curvature(mock_results):
 
     assert fig is not None
     assert len(fig.axes) == 1  # Check if one axis is created
+    np.testing.assert_array_equal(fig.axes[0].lines[0].get_xdata(), np.array([429, 430, 431, 432, 433, 434]))
 
 
 def test_plot_local_flexibility(mock_results):
@@ -58,6 +60,15 @@ def test_plot_local_flexibility_with_threshold(mock_results):
     assert any(
         line.get_ydata()[0] == 0.1 for line in fig.axes[0].lines
     )  # Check if threshold line is drawn
+
+
+def test_plot_curvature_heatmap_uses_residue_ids(mock_results):
+    plotter = MengerCurvaturePlotter(mock_results, spacing=2)
+    fig = plotter.plot_curvature_heatmap()
+
+    heatmap_axis = fig.axes[0]
+    ytick_labels = [tick.get_text() for tick in heatmap_axis.get_yticklabels()]
+    assert ytick_labels == ["429", "430", "431", "432", "433", "434"]
 
 def test_plot_correlation_matrix_local_curvature(mock_results):
     plotter = MengerCurvaturePlotter(mock_results, spacing=2)

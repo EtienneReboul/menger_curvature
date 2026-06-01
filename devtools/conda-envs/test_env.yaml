@@ -4,7 +4,8 @@ channels:
   - nodefaults
 dependencies:
   # Base depends
-  - python
+  # Pin Python to a version supported by the current NumPy/Numba stack.
+  - python=3.12
   - pip
 
   # MDAnalysis

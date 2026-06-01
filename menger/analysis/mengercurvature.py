@@ -345,6 +345,7 @@ class MengerCurvature(AnalysisBase):
         self.sel = select
         self.spacing = spacing
         self.n_workers = n_workers if n_workers is not None else mp.cpu_count() - 2
+        self.residue_ids = np.asarray(self.atomgroup.residues.resids)
 
         # check if the selection is valid
         check_select(self.universe, select)

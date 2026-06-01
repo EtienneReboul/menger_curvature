@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import numpy as np
 
 import matplotlib.pyplot as plt
@@ -38,22 +38,16 @@ class FigureConfig:
 class PlotConfig:
     """Configuration for plot formatting parameters."""
 
-    figure: FigureConfig = None
-    heatmap: HeatmapConfig = None
-    beta_sheet: SecondaryStructureConfig = None
-    alpha_helix: SecondaryStructureConfig = None
+    figure: FigureConfig = field(default_factory=FigureConfig)
+    heatmap: HeatmapConfig = field(default_factory=HeatmapConfig)
+    beta_sheet: SecondaryStructureConfig = field(
+        default_factory=lambda: SecondaryStructureConfig(range=(0.01, 0.07), color="blue")
+    )
+    alpha_helix: SecondaryStructureConfig = field(
+        default_factory=lambda: SecondaryStructureConfig(range=(0.28, 0.32), color="red")
+    )
     flexibility_threshold_color: str = "purple"
     flexibility_threshold_linestyle: str = "--"
-
-    def __post_init__(self):
-        if self.figure is None:
-            self.figure = FigureConfig()
-        if self.heatmap is None:
-            self.heatmap = HeatmapConfig()
-        if self.beta_sheet is None:
-            self.beta_sheet = SecondaryStructureConfig(range=(0.01, 0.07), color="blue")
-        if self.alpha_helix is None:
-            self.alpha_helix = SecondaryStructureConfig(range=(0.28, 0.32), color="red")
 
 
 class MengerCurvaturePlotter:
@@ -84,12 +78,35 @@ class MengerCurvaturePlotter:
         self.number_of_conformations = self.menger_results.curvature_array.shape[0]
         self.range_frame_number = range(self.number_of_conformations)
         self.number_of_atoms_in_selection = self.menger_results.curvature_array.shape[1]
-        self.range_residues = range(
-            self.spacing + 1, self.number_of_atoms_in_selection + self.spacing + 1
-        )
+        self.residue_ids = self._get_residue_ids()
+        self.residue_positions = np.arange(self.number_of_atoms_in_selection)
 
         # Set plotting style
         plt.style.use(self.config.figure.style)
+
+    def _get_residue_ids(self):
+        residue_ids = getattr(self.menger_results, "residue_ids", None)
+        if residue_ids is None:
+            return np.arange(self.number_of_atoms_in_selection) + self.spacing + 1
+
+        residue_ids = np.asarray(residue_ids)
+        if residue_ids.shape[0] == self.number_of_atoms_in_selection:
+            return residue_ids
+
+        if residue_ids.shape[0] >= self.number_of_atoms_in_selection + 2 * self.spacing:
+            return residue_ids[self.spacing : residue_ids.shape[0] - self.spacing]
+
+        if residue_ids.shape[0] > self.number_of_atoms_in_selection:
+            trim = (residue_ids.shape[0] - self.number_of_atoms_in_selection) // 2
+            return residue_ids[trim : trim + self.number_of_atoms_in_selection]
+
+        return np.arange(self.number_of_atoms_in_selection) + self.spacing + 1
+
+    def _plot_x_bounds(self):
+        return self.residue_ids[0] - 0.5, self.residue_ids[-1] + 0.5
+
+    def _background_x_bounds(self):
+        return np.array([self.residue_ids[0] - 5, self.residue_ids[-1] + 5])
 
     def plot_curvature_heatmap(self, figsize: None | tuple[int, int] = None):
         """
@@ -109,15 +126,17 @@ class MengerCurvaturePlotter:
         ax.set_xlabel("Frames", fontsize=self.config.figure.font_size)
         ax.set_ylabel("Residues", fontsize=self.config.figure.font_size)
 
-        ax.yaxis.set_major_locator(mticker.FixedLocator(self.range_residues))
-        ax.yaxis.set_major_formatter(mticker.FixedFormatter(self.range_residues))
+        ax.yaxis.set_major_locator(mticker.FixedLocator(self.residue_positions))
+        ax.yaxis.set_major_formatter(
+            mticker.FixedFormatter([str(residue_id) for residue_id in self.residue_ids])
+        )
 
         ax.yaxis.get_label().set_fontsize(self.config.figure.font_size)
-        ax.set_ylim([0.5, self.number_of_atoms_in_selection + 2 * self.spacing + 0.5])
+        ax.set_ylim(-0.5, self.number_of_atoms_in_selection - 0.5)
 
         im = ax.pcolormesh(
             self.range_frame_number,
-            self.range_residues,
+            self.residue_positions,
             np.transpose(self.menger_results.curvature_array),
             cmap=self.config.heatmap.cmap,
             shading="nearest",
@@ -141,16 +160,16 @@ class MengerCurvaturePlotter:
         if figsize is None:
             figsize = self.config.figure.figsize
         fig = plt.figure(figsize=figsize)
-        plt.xlim(0.5, self.number_of_atoms_in_selection + 2 * self.spacing + 0.5)
+        plt.xlim(*self._plot_x_bounds())
 
-        plt.plot(self.range_residues, self.menger_results.local_curvatures)
+        plt.plot(self.residue_ids, self.menger_results.local_curvatures)
 
         plt.xlabel("Residues", fontsize=self.config.figure.font_size)
         plt.ylabel("Local Curvature ($Å^{-1}$)", fontsize=self.config.figure.font_size)
 
         # Indicate the range for beta-sheets
         plt.fill_between(
-            range(-1, self.number_of_atoms_in_selection + 2 * self.spacing + 10),
+            self._background_x_bounds(),
             y1=self.config.beta_sheet.range[0],
             y2=self.config.beta_sheet.range[1],
             color=self.config.beta_sheet.color,
@@ -160,7 +179,7 @@ class MengerCurvaturePlotter:
 
         # Indicate the range for alpha-helices
         plt.fill_between(
-            range(-1, self.number_of_atoms_in_selection + 2 * self.spacing + 10),
+            self._background_x_bounds(),
             y1=self.config.alpha_helix.range[0],
             y2=self.config.alpha_helix.range[1],
             color=self.config.alpha_helix.color,
@@ -185,9 +204,9 @@ class MengerCurvaturePlotter:
         if figsize is None:
             figsize = self.config.figure.figsize
         fig = plt.figure(figsize=figsize)
-        plt.xlim(0.5, self.number_of_atoms_in_selection + 2 * self.spacing + 0.5)
+        plt.xlim(*self._plot_x_bounds())
 
-        plt.plot(self.range_residues, self.menger_results.local_flexibilities)
+        plt.plot(self.residue_ids, self.menger_results.local_flexibilities)
 
         plt.xlabel("Residues", fontsize=self.config.figure.font_size)
         plt.ylabel(

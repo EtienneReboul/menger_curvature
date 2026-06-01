@@ -75,7 +75,6 @@ class MengerCurvaturePlotter:
         self.config = config if config is not None else PlotConfig()
 
         # compute some useful parameters
-        self.number_of_conformations = self.menger_results.curvature_array.shape[0]
         self.range_frame_number = range(self.number_of_conformations)
         self.number_of_atoms_in_selection = self.menger_results.curvature_array.shape[1]
         self.residue_ids = self._get_residue_ids()
@@ -83,6 +82,10 @@ class MengerCurvaturePlotter:
 
         # Set plotting style
         plt.style.use(self.config.figure.style)
+
+    @property
+    def number_of_conformations(self) -> int:
+        return self.menger_results.curvature_array.shape[0]
 
     def _get_residue_ids(self):
         residue_ids = getattr(self.menger_results, "residue_ids", None)

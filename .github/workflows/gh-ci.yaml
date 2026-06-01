@@ -5,11 +5,15 @@ on:
       - main
     paths:
       - "menger/**"
+      - "devtools/conda-envs/**"
+      - ".github/workflows/**"
   pull_request:
     branches:
       - main
     paths:
       - "menger/**"
+      - "devtools/conda-envs/**"
+      - ".github/workflows/**"
   schedule:
     # Weekly tests at midnight on Sundays run on main by default:
     #   Scheduled workflows run on the latest commit on the default or base branch.

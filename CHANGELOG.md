@@ -16,6 +16,16 @@ The rules for this file:
     * YYYY-MM-DD date format (following ISO 8601)
   * accompany each entry with github issue/PR number (Issue #xyz)
 -->
+## [1.1.1] - 2026-06-01
+
+### Changed in 1.1.1
+
+- Added resid to visualisation and menger curvature for case where starting resid is not 0.
+
+### Notes for 1.1.1
+
+Mostly there to absorb the high number of commits that were made for JOSS submission. Minimal change in code
+
 ## [1.1.0] - 2026-01-20
 
 ### Added in 1.1.0
@@ -28,10 +38,6 @@ The rules for this file:
 
 - Refactor notebook tutorial to use visualisation module
 - Depreciated the run_parallel method of menger_curvature class
-
-### Notes for 1.1.1
-
-Hosting data  on Zenodo and retrieving it was tried but did not lead to an acceptable outcome.
 
 ## [1.0.0] - 2024-04-03
 

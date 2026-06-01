@@ -71,7 +71,7 @@ jobs:
         if [[ "${{ matrix.mdanalysis-version }}" == "develop" ]]; then
           pip install git+https://github.com/MDAnalysis/mdanalysis.git@develop#subdirectory=package
         else
-          mamba install -y -c conda-forge MDAnalysis
+          mamba install -y -c conda-forge mdanalysis
         fi
       shell: bash -l {0}
       
@@ -124,7 +124,7 @@ jobs:
 
     - name: Install MDAnalysis
       run: |
-        mamba install -y -c conda-forge MDAnalysis
+        mamba install -y -c conda-forge mdanalysis
       shell: bash -l {0}
 
     - name: Install package

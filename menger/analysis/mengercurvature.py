@@ -331,14 +331,17 @@ class MengerCurvature(AnalysisBase):
         # See more at the MDAnalysis documentation:
         # https://docs.mdanalysis.org/stable/documentation_pages/analysis/base.html?highlight=results#MDAnalysis.analysis.base.Results
 
-        # compile the numba function if it hasn't been compiled yet
-        if self.is_compile_numba:
+        # JIT-compile the numba kernel once per process (warm-up), so that
+        # compilation time is not attributed to the first analysed frame.
+        # The flag is stored on the class so the warm-up is not repeated
+        # for every new instance.
+        if not MengerCurvature.is_compile_numba:
             dummy_data = DummyData()
             _ = menger_curvature(
                 frame=dummy_data.frame,
                 spacing=2,
             )
-            self.is_compile_numba = True
+            MengerCurvature.is_compile_numba = True
 
         self.universe = universe_or_atomgroup.universe
         self.atomgroup = universe_or_atomgroup.select_atoms(select)

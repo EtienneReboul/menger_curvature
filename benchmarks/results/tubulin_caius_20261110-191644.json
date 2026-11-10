@@ -1,0 +1,2181 @@
+{
+  "environment": {
+    "date_utc": "2026-11-10T18:06:17+00:00",
+    "python": "3.12.16",
+    "python_implementation": "CPython",
+    "os": "Linux-4.18.0-425.3.1.el8.x86_64-x86_64-with-glibc2.28",
+    "machine": "x86_64",
+    "logical_cpus": 32,
+    "multiprocessing_start_method": "fork",
+    "MDAnalysis": "2.10.0",
+    "numpy": "2.1.0",
+    "numba": "0.65.1",
+    "numba_threading_layer_env": "default",
+    "OMP_NUM_THREADS": "unset",
+    "menger_curvature": "0.0.0",
+    "pbxplore": "1.4.0",
+    "cpu": "Intel(R) Xeon(R) Gold 6326 CPU @ 2.90GHz",
+    "physical_cpus": "32",
+    "ram_gib": 125.3,
+    "git_commit": "4da20c3",
+    "git_dirty": true
+  },
+  "args": {
+    "_worker": null,
+    "dataset": "tubulin_caius",
+    "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+    "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+    "reps": 5,
+    "workers": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "start_methods": [
+      "fork",
+      "spawn"
+    ],
+    "methods": [
+      "menger_serial",
+      "menger_parallel",
+      "rmsf",
+      "neq"
+    ],
+    "io_modes": [
+      "disk",
+      "memory"
+    ],
+    "start": null,
+    "stop": null,
+    "step": null,
+    "outdir": "benchmarks/results"
+  },
+  "runs": [
+    {
+      "method": "menger_serial",
+      "io_mode": "disk",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 0,
+      "timings_s": {
+        "imports": 2.3110429663211107,
+        "load_universe": 0.04433905892074108,
+        "jit_compile": 2.9140627048909664,
+        "setup": 0.0009437091648578644,
+        "analysis": 0.4928924236446619,
+        "total": 3.4523878060281277
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 232.328125,
+      "peak_rss_increment_main_mib": 56.7265625,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "menger_serial",
+      "io_mode": "disk",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 1,
+      "timings_s": {
+        "imports": 2.437874600291252,
+        "load_universe": 0.04398945905268192,
+        "jit_compile": 2.430823180824518,
+        "setup": 0.0009800735861063004,
+        "analysis": 0.5023428853601217,
+        "total": 2.978249153122306
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 233.67578125,
+      "peak_rss_increment_main_mib": 58.07421875,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "menger_serial",
+      "io_mode": "disk",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 2,
+      "timings_s": {
+        "imports": 2.225314263254404,
+        "load_universe": 0.04792879894375801,
+        "jit_compile": 2.4326750114560127,
+        "setup": 0.0009555723518133163,
+        "analysis": 0.4955042004585266,
+        "total": 2.9771803356707096
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 230.796875,
+      "peak_rss_increment_main_mib": 55.1953125,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "menger_serial",
+      "io_mode": "disk",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 3,
+      "timings_s": {
+        "imports": 2.1292688194662333,
+        "load_universe": 0.045996250584721565,
+        "jit_compile": 2.4368308316916227,
+        "setup": 0.0012810267508029938,
+        "analysis": 0.5152231436222792,
+        "total": 2.9994457475841045
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 233.703125,
+      "peak_rss_increment_main_mib": 58.1015625,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "menger_serial",
+      "io_mode": "disk",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 4,
+      "timings_s": {
+        "imports": 2.280933402478695,
+        "load_universe": 0.04785947874188423,
+        "jit_compile": 2.438448155298829,
+        "setup": 0.0009577367454767227,
+        "analysis": 0.48756150528788567,
+        "total": 2.9749413784593344
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 231.37109375,
+      "peak_rss_increment_main_mib": 55.76953125,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "menger_serial",
+      "io_mode": "memory",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 0,
+      "timings_s": {
+        "imports": 2.2200575564056635,
+        "load_universe": 0.04582466371357441,
+        "preload": 0.2619599960744381,
+        "jit_compile": 2.4253359399735928,
+        "setup": 0.0009472314268350601,
+        "analysis": 0.2348552644252777,
+        "total": 2.9690485149621964
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 310.703125,
+      "peak_rss_increment_main_mib": 135.1015625,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "menger_serial",
+      "io_mode": "memory",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 1,
+      "timings_s": {
+        "imports": 2.3403836265206337,
+        "load_universe": 0.046266352757811546,
+        "preload": 0.26022944040596485,
+        "jit_compile": 2.4099199771881104,
+        "setup": 0.0009402874857187271,
+        "analysis": 0.23583334498107433,
+        "total": 2.9533115439116955
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 310.64453125,
+      "peak_rss_increment_main_mib": 135.04296875,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "menger_serial",
+      "io_mode": "memory",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 2,
+      "timings_s": {
+        "imports": 2.2851313333958387,
+        "load_universe": 0.04787081852555275,
+        "preload": 0.2534062936902046,
+        "jit_compile": 2.4337856080383062,
+        "setup": 0.0009428393095731735,
+        "analysis": 0.24849630147218704,
+        "total": 2.984632931649685
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 312.98828125,
+      "peak_rss_increment_main_mib": 137.38671875,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "menger_serial",
+      "io_mode": "memory",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 3,
+      "timings_s": {
+        "imports": 2.327106012031436,
+        "load_universe": 0.04813229478895664,
+        "preload": 0.2656534854322672,
+        "jit_compile": 2.421513134613633,
+        "setup": 0.0009465217590332031,
+        "analysis": 0.23345824517309666,
+        "total": 2.9698297437280416
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 310.8828125,
+      "peak_rss_increment_main_mib": 135.28125,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "menger_serial",
+      "io_mode": "memory",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 4,
+      "timings_s": {
+        "imports": 2.3866798747330904,
+        "load_universe": 0.046359555795788765,
+        "preload": 0.264390017837286,
+        "jit_compile": 2.4311306700110435,
+        "setup": 0.0009759608656167984,
+        "analysis": 0.23258019424974918,
+        "total": 2.975555993616581
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 310.4609375,
+      "peak_rss_increment_main_mib": 134.859375,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 1,
+      "start_method": "fork",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 0,
+      "timings_s": {
+        "imports": 2.219629518687725,
+        "load_universe": 0.047181740403175354,
+        "jit_compile": 2.4215921498835087,
+        "setup": 0.0009397119283676147,
+        "analysis": 1.3065829165279865,
+        "total": 3.7763310205191374
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 234.578125,
+      "peak_rss_increment_main_mib": 58.9765625,
+      "peak_rss_largest_child_mib": 147.73046875
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 1,
+      "start_method": "fork",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 1,
+      "timings_s": {
+        "imports": 2.368833541870117,
+        "load_universe": 0.04498444125056267,
+        "jit_compile": 2.422114636749029,
+        "setup": 0.0010081138461828232,
+        "analysis": 1.2894021458923817,
+        "total": 3.757543873041868
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 234.3515625,
+      "peak_rss_increment_main_mib": 58.75,
+      "peak_rss_largest_child_mib": 147.65234375
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 1,
+      "start_method": "fork",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 2,
+      "timings_s": {
+        "imports": 2.3564948197454214,
+        "load_universe": 0.04662536084651947,
+        "jit_compile": 2.397082556039095,
+        "setup": 0.000988522544503212,
+        "analysis": 1.287789274007082,
+        "total": 3.7325177397578955
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 234.0703125,
+      "peak_rss_increment_main_mib": 58.46875,
+      "peak_rss_largest_child_mib": 147.78515625
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 1,
+      "start_method": "fork",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 3,
+      "timings_s": {
+        "imports": 2.2951451893895864,
+        "load_universe": 0.04758112691342831,
+        "jit_compile": 2.393615061417222,
+        "setup": 0.0009510554373264313,
+        "analysis": 1.3122506402432919,
+        "total": 3.7544314730912447
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 233.9765625,
+      "peak_rss_increment_main_mib": 58.375,
+      "peak_rss_largest_child_mib": 147.8359375
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 1,
+      "start_method": "fork",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 4,
+      "timings_s": {
+        "imports": 2.2467949483543634,
+        "load_universe": 0.04326792247593403,
+        "jit_compile": 2.3962818663567305,
+        "setup": 0.0009562112390995026,
+        "analysis": 1.2749899476766586,
+        "total": 3.7155312933027744
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 234.51171875,
+      "peak_rss_increment_main_mib": 58.91015625,
+      "peak_rss_largest_child_mib": 147.85546875
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 1,
+      "start_method": "spawn",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 0,
+      "timings_s": {
+        "imports": 2.3024862930178642,
+        "load_universe": 0.045778583735227585,
+        "jit_compile": 2.408220199868083,
+        "setup": 0.0009481441229581833,
+        "analysis": 6.179070150479674,
+        "total": 8.634042236953974
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 228.04296875,
+      "peak_rss_increment_main_mib": 52.44140625,
+      "peak_rss_largest_child_mib": 233.59375
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 1,
+      "start_method": "spawn",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 1,
+      "timings_s": {
+        "imports": 2.223640350624919,
+        "load_universe": 0.04463868774473667,
+        "jit_compile": 2.438917562365532,
+        "setup": 0.0009669400751590729,
+        "analysis": 6.165729908272624,
+        "total": 8.650276932865381
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 228.078125,
+      "peak_rss_increment_main_mib": 52.4765625,
+      "peak_rss_largest_child_mib": 233.71875
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 1,
+      "start_method": "spawn",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 2,
+      "timings_s": {
+        "imports": 2.29923371784389,
+        "load_universe": 0.046820737421512604,
+        "jit_compile": 2.4474578090012074,
+        "setup": 0.0009568482637405396,
+        "analysis": 6.201328771188855,
+        "total": 8.696587210521102
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 228.30078125,
+      "peak_rss_increment_main_mib": 52.69921875,
+      "peak_rss_largest_child_mib": 233.86328125
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 1,
+      "start_method": "spawn",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 3,
+      "timings_s": {
+        "imports": 2.4838262740522623,
+        "load_universe": 0.04532625712454319,
+        "jit_compile": 2.431033231317997,
+        "setup": 0.0009587090462446213,
+        "analysis": 6.430771939456463,
+        "total": 8.90811630897224
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 228.28515625,
+      "peak_rss_increment_main_mib": 52.68359375,
+      "peak_rss_largest_child_mib": 233.5625
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 1,
+      "start_method": "spawn",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 4,
+      "timings_s": {
+        "imports": 2.319943653419614,
+        "load_universe": 0.047771332785487175,
+        "jit_compile": 2.4680028054863214,
+        "setup": 0.0009667724370956421,
+        "analysis": 6.208048179745674,
+        "total": 8.72481425665319
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 228.67578125,
+      "peak_rss_increment_main_mib": 53.07421875,
+      "peak_rss_largest_child_mib": 234.21875
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 2,
+      "start_method": "fork",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 0,
+      "timings_s": {
+        "imports": 2.4110648054629564,
+        "load_universe": 0.04766124114394188,
+        "jit_compile": 2.379772488027811,
+        "setup": 0.0012676510959863663,
+        "analysis": 0.696528434753418,
+        "total": 3.1252571400254965
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 238.515625,
+      "peak_rss_increment_main_mib": 62.9140625,
+      "peak_rss_largest_child_mib": 145.21875
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 2,
+      "start_method": "fork",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 1,
+      "timings_s": {
+        "imports": 2.519711297005415,
+        "load_universe": 0.045101458206772804,
+        "jit_compile": 2.4383096657693386,
+        "setup": 0.000939536839723587,
+        "analysis": 0.7305858079344034,
+        "total": 3.2149724792689085
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 238.57421875,
+      "peak_rss_increment_main_mib": 62.97265625,
+      "peak_rss_largest_child_mib": 145.3203125
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 2,
+      "start_method": "fork",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 2,
+      "timings_s": {
+        "imports": 2.381936179473996,
+        "load_universe": 0.04292036220431328,
+        "jit_compile": 2.4554705005139112,
+        "setup": 0.0009519755840301514,
+        "analysis": 0.68778146058321,
+        "total": 3.1871595103293657
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 238.27734375,
+      "peak_rss_increment_main_mib": 62.67578125,
+      "peak_rss_largest_child_mib": 145.296875
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 2,
+      "start_method": "fork",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 3,
+      "timings_s": {
+        "imports": 2.2877153251320124,
+        "load_universe": 0.042543647810816765,
+        "jit_compile": 2.3961002584546804,
+        "setup": 0.0009546559303998947,
+        "analysis": 0.7155829332768917,
+        "total": 3.155217010527849
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 237.75390625,
+      "peak_rss_increment_main_mib": 62.15234375,
+      "peak_rss_largest_child_mib": 145.18359375
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 2,
+      "start_method": "fork",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 4,
+      "timings_s": {
+        "imports": 2.4625520668923855,
+        "load_universe": 0.04826684109866619,
+        "jit_compile": 2.3602579720318317,
+        "setup": 0.0012676864862442017,
+        "analysis": 0.6714089438319206,
+        "total": 3.0812290515750647
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 238.43359375,
+      "peak_rss_increment_main_mib": 62.83203125,
+      "peak_rss_largest_child_mib": 145.67578125
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 2,
+      "start_method": "spawn",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 0,
+      "timings_s": {
+        "imports": 2.2999218739569187,
+        "load_universe": 0.045211127027869225,
+        "jit_compile": 2.3795640654861927,
+        "setup": 0.001851491630077362,
+        "analysis": 5.68717709928751,
+        "total": 8.11383419111371
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 230.75390625,
+      "peak_rss_increment_main_mib": 55.15234375,
+      "peak_rss_largest_child_mib": 228.55078125
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 2,
+      "start_method": "spawn",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 1,
+      "timings_s": {
+        "imports": 2.3733965437859297,
+        "load_universe": 0.04245808534324169,
+        "jit_compile": 2.429368255659938,
+        "setup": 0.0009632278233766556,
+        "analysis": 5.704937722533941,
+        "total": 8.177750980481505
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 228.77734375,
+      "peak_rss_increment_main_mib": 53.17578125,
+      "peak_rss_largest_child_mib": 228.59375
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 2,
+      "start_method": "spawn",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 2,
+      "timings_s": {
+        "imports": 2.350497543811798,
+        "load_universe": 0.04919077455997467,
+        "jit_compile": 2.4250429160892963,
+        "setup": 0.0009487848728895187,
+        "analysis": 5.73058719933033,
+        "total": 8.20579499937594
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 228.1875,
+      "peak_rss_increment_main_mib": 52.5859375,
+      "peak_rss_largest_child_mib": 228.3671875
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 2,
+      "start_method": "spawn",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 3,
+      "timings_s": {
+        "imports": 2.404826831072569,
+        "load_universe": 0.047118471935391426,
+        "jit_compile": 2.4338628817349672,
+        "setup": 0.0009611211717128754,
+        "analysis": 5.636151326820254,
+        "total": 8.118117542937398
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 227.32421875,
+      "peak_rss_increment_main_mib": 51.72265625,
+      "peak_rss_largest_child_mib": 228.56640625
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 2,
+      "start_method": "spawn",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 4,
+      "timings_s": {
+        "imports": 2.419968467205763,
+        "load_universe": 0.04682312719523907,
+        "jit_compile": 2.4306834731251,
+        "setup": 0.000954698771238327,
+        "analysis": 5.7091686725616455,
+        "total": 8.18765347264707
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 227.41796875,
+      "peak_rss_increment_main_mib": 51.81640625,
+      "peak_rss_largest_child_mib": 228.328125
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 4,
+      "start_method": "fork",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 0,
+      "timings_s": {
+        "imports": 2.3832774087786674,
+        "load_universe": 0.04508788324892521,
+        "jit_compile": 2.4281359054148197,
+        "setup": 0.0009493567049503326,
+        "analysis": 0.43610446341335773,
+        "total": 2.9103814363479614
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 239.6796875,
+      "peak_rss_increment_main_mib": 64.078125,
+      "peak_rss_largest_child_mib": 145.296875
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 4,
+      "start_method": "fork",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 1,
+      "timings_s": {
+        "imports": 2.3336594216525555,
+        "load_universe": 0.04523875191807747,
+        "jit_compile": 2.4208854120224714,
+        "setup": 0.0009405966848134995,
+        "analysis": 0.45084042102098465,
+        "total": 2.91800226084888
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 240.484375,
+      "peak_rss_increment_main_mib": 64.8828125,
+      "peak_rss_largest_child_mib": 144.84375
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 4,
+      "start_method": "fork",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 2,
+      "timings_s": {
+        "imports": 2.4454314559698105,
+        "load_universe": 0.045920753851532936,
+        "jit_compile": 2.414159532636404,
+        "setup": 0.0009557455778121948,
+        "analysis": 0.43949480168521404,
+        "total": 2.9006370827555656
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 240.6484375,
+      "peak_rss_increment_main_mib": 65.046875,
+      "peak_rss_largest_child_mib": 144.87109375
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 4,
+      "start_method": "fork",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 3,
+      "timings_s": {
+        "imports": 2.32413518615067,
+        "load_universe": 0.04642186313867569,
+        "jit_compile": 2.429258067160845,
+        "setup": 0.0009498763829469681,
+        "analysis": 0.44139101915061474,
+        "total": 2.918133784085512
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 240.359375,
+      "peak_rss_increment_main_mib": 64.7578125,
+      "peak_rss_largest_child_mib": 145.20703125
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 4,
+      "start_method": "fork",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 4,
+      "timings_s": {
+        "imports": 2.367744840681553,
+        "load_universe": 0.046969735994935036,
+        "jit_compile": 2.3952986542135477,
+        "setup": 0.0009495411068201065,
+        "analysis": 0.4422073978930712,
+        "total": 2.8855347707867622
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 240.30859375,
+      "peak_rss_increment_main_mib": 64.70703125,
+      "peak_rss_largest_child_mib": 144.6953125
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 4,
+      "start_method": "spawn",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 0,
+      "timings_s": {
+        "imports": 2.2686543110758066,
+        "load_universe": 0.045547496527433395,
+        "jit_compile": 2.423136129975319,
+        "setup": 0.0009769946336746216,
+        "analysis": 5.513062544167042,
+        "total": 7.982816284522414
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 228.19921875,
+      "peak_rss_increment_main_mib": 52.59765625,
+      "peak_rss_largest_child_mib": 228.6171875
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 4,
+      "start_method": "spawn",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 1,
+      "timings_s": {
+        "imports": 2.3038958497345448,
+        "load_universe": 0.0436333604156971,
+        "jit_compile": 2.4482721649110317,
+        "setup": 0.0009630117565393448,
+        "analysis": 5.668389033526182,
+        "total": 8.161357885226607
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 228.2421875,
+      "peak_rss_increment_main_mib": 52.640625,
+      "peak_rss_largest_child_mib": 228.2421875
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 4,
+      "start_method": "spawn",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 2,
+      "timings_s": {
+        "imports": 2.378497574478388,
+        "load_universe": 0.045204468071460724,
+        "jit_compile": 2.3579068146646023,
+        "setup": 0.001316756010055542,
+        "analysis": 5.5333945490419865,
+        "total": 7.937846798449755
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 228.7421875,
+      "peak_rss_increment_main_mib": 53.140625,
+      "peak_rss_largest_child_mib": 228.234375
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 4,
+      "start_method": "spawn",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 3,
+      "timings_s": {
+        "imports": 2.2698293402791023,
+        "load_universe": 0.0466208141297102,
+        "jit_compile": 2.4143739081919193,
+        "setup": 0.0009748376905918121,
+        "analysis": 5.50426228903234,
+        "total": 7.9663278087973595
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 228.29296875,
+      "peak_rss_increment_main_mib": 52.69140625,
+      "peak_rss_largest_child_mib": 227.84765625
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 4,
+      "start_method": "spawn",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 4,
+      "timings_s": {
+        "imports": 2.2685473151504993,
+        "load_universe": 0.045162275433540344,
+        "jit_compile": 2.4206211660057306,
+        "setup": 0.0009702760726213455,
+        "analysis": 5.523651475086808,
+        "total": 7.990499068051577
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 228.296875,
+      "peak_rss_increment_main_mib": 52.6953125,
+      "peak_rss_largest_child_mib": 228.109375
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 8,
+      "start_method": "fork",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 0,
+      "timings_s": {
+        "imports": 2.3800261486321688,
+        "load_universe": 0.04569218307733536,
+        "jit_compile": 2.421462757512927,
+        "setup": 0.000951351597905159,
+        "analysis": 0.33009967394173145,
+        "total": 2.7983114030212164
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 245.203125,
+      "peak_rss_increment_main_mib": 69.6015625,
+      "peak_rss_largest_child_mib": 144.484375
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 8,
+      "start_method": "fork",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 1,
+      "timings_s": {
+        "imports": 2.288075480610132,
+        "load_universe": 0.04146883636713028,
+        "jit_compile": 2.4043157547712326,
+        "setup": 0.0009555965662002563,
+        "analysis": 0.3002093844115734,
+        "total": 2.7470637392252684
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 244.86328125,
+      "peak_rss_increment_main_mib": 69.26171875,
+      "peak_rss_largest_child_mib": 144.53125
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 8,
+      "start_method": "fork",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 2,
+      "timings_s": {
+        "imports": 2.2052876837551594,
+        "load_universe": 0.04732541926205158,
+        "jit_compile": 2.4437721502035856,
+        "setup": 0.0009547807276248932,
+        "analysis": 0.3255161102861166,
+        "total": 2.8176697678864002
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 245.27734375,
+      "peak_rss_increment_main_mib": 69.67578125,
+      "peak_rss_largest_child_mib": 144.36328125
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 8,
+      "start_method": "fork",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 3,
+      "timings_s": {
+        "imports": 2.313739677891135,
+        "load_universe": 0.04427517019212246,
+        "jit_compile": 2.4422869719564915,
+        "setup": 0.0009551681578159332,
+        "analysis": 0.3122912924736738,
+        "total": 2.7999128866940737
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 244.4765625,
+      "peak_rss_increment_main_mib": 68.875,
+      "peak_rss_largest_child_mib": 144.6328125
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 8,
+      "start_method": "fork",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 4,
+      "timings_s": {
+        "imports": 2.436673119664192,
+        "load_universe": 0.04936218447983265,
+        "jit_compile": 2.4414360504597425,
+        "setup": 0.0010089129209518433,
+        "analysis": 0.3210444636642933,
+        "total": 2.812969818711281
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 245.27734375,
+      "peak_rss_increment_main_mib": 69.67578125,
+      "peak_rss_largest_child_mib": 144.39453125
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 8,
+      "start_method": "spawn",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 0,
+      "timings_s": {
+        "imports": 2.3193150516599417,
+        "load_universe": 0.04401055909693241,
+        "jit_compile": 2.4142201896756887,
+        "setup": 0.000996587797999382,
+        "analysis": 5.813622210174799,
+        "total": 8.272951794788241
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 228.2109375,
+      "peak_rss_increment_main_mib": 52.609375,
+      "peak_rss_largest_child_mib": 228.2109375
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 8,
+      "start_method": "spawn",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 1,
+      "timings_s": {
+        "imports": 2.3203016705811024,
+        "load_universe": 0.04802795127034187,
+        "jit_compile": 2.407310988754034,
+        "setup": 0.0010091997683048248,
+        "analysis": 5.610411019995809,
+        "total": 8.066843977198005
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 227.62109375,
+      "peak_rss_increment_main_mib": 52.01953125,
+      "peak_rss_largest_child_mib": 227.62109375
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 8,
+      "start_method": "spawn",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 2,
+      "timings_s": {
+        "imports": 2.3787959329783916,
+        "load_universe": 0.04968436062335968,
+        "jit_compile": 2.4081028811633587,
+        "setup": 0.0009498745203018188,
+        "analysis": 5.60003662481904,
+        "total": 8.05887595191598
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 229.26171875,
+      "peak_rss_increment_main_mib": 53.66015625,
+      "peak_rss_largest_child_mib": 229.26171875
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 8,
+      "start_method": "spawn",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 3,
+      "timings_s": {
+        "imports": 2.149374458938837,
+        "load_universe": 0.04622059687972069,
+        "jit_compile": 2.417884325608611,
+        "setup": 0.0010000895708799362,
+        "analysis": 5.727267429232597,
+        "total": 8.192476268857718
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 228.046875,
+      "peak_rss_increment_main_mib": 52.4453125,
+      "peak_rss_largest_child_mib": 228.046875
+    },
+    {
+      "method": "menger_parallel",
+      "io_mode": "disk",
+      "n_workers": 8,
+      "start_method": "spawn",
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 4,
+      "timings_s": {
+        "imports": 2.3592209611088037,
+        "load_universe": 0.045509593561291695,
+        "jit_compile": 2.380787767469883,
+        "setup": 0.0013183578848838806,
+        "analysis": 5.7966230399906635,
+        "total": 8.224346300587058
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 446,
+        "selection": "name CA"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 231.39453125,
+      "peak_rss_increment_main_mib": 55.79296875,
+      "peak_rss_largest_child_mib": 228.64453125
+    },
+    {
+      "method": "rmsf",
+      "io_mode": "disk",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 0,
+      "timings_s": {
+        "imports": 1.7687900643795729,
+        "load_universe": 0.042592570185661316,
+        "average_structure": 1.1101006139069796,
+        "alignment": 1.0428438559174538,
+        "analysis": 0.032003412023186684,
+        "total": 2.2288579996675253
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 450,
+        "selection": "protein and name CA",
+        "n_atoms_aligned_in_memory": 6924
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 184.69921875,
+      "peak_rss_increment_main_mib": 9.09765625,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "rmsf",
+      "io_mode": "disk",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 1,
+      "timings_s": {
+        "imports": 1.678758416324854,
+        "load_universe": 0.043692074716091156,
+        "average_structure": 1.106168694794178,
+        "alignment": 1.0385767109692097,
+        "analysis": 0.031984468922019005,
+        "total": 2.2215852458029985
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 450,
+        "selection": "protein and name CA",
+        "n_atoms_aligned_in_memory": 6924
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 181.359375,
+      "peak_rss_increment_main_mib": 5.7578125,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "rmsf",
+      "io_mode": "disk",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 2,
+      "timings_s": {
+        "imports": 1.6900350600481033,
+        "load_universe": 0.04431669972836971,
+        "average_structure": 1.1097734458744526,
+        "alignment": 1.0511686448007822,
+        "analysis": 0.031993193551898,
+        "total": 2.238632196560502
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 450,
+        "selection": "protein and name CA",
+        "n_atoms_aligned_in_memory": 6924
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 181.83203125,
+      "peak_rss_increment_main_mib": 6.23046875,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "rmsf",
+      "io_mode": "disk",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 3,
+      "timings_s": {
+        "imports": 1.718482492491603,
+        "load_universe": 0.043827977031469345,
+        "average_structure": 1.1076643541455269,
+        "alignment": 1.0392708592116833,
+        "analysis": 0.03137769363820553,
+        "total": 2.223225876688957
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 450,
+        "selection": "protein and name CA",
+        "n_atoms_aligned_in_memory": 6924
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 181.0390625,
+      "peak_rss_increment_main_mib": 5.4375,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "rmsf",
+      "io_mode": "disk",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 4,
+      "timings_s": {
+        "imports": 1.8526306338608265,
+        "load_universe": 0.04687978886067867,
+        "average_structure": 1.1349686607718468,
+        "alignment": 1.0631342604756355,
+        "analysis": 0.030801229178905487,
+        "total": 2.2770079988986254
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 450,
+        "selection": "protein and name CA",
+        "n_atoms_aligned_in_memory": 6924
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 182.01171875,
+      "peak_rss_increment_main_mib": 6.41015625,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "rmsf",
+      "io_mode": "memory",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 0,
+      "timings_s": {
+        "imports": 1.7566595748066902,
+        "load_universe": 0.04764443263411522,
+        "preload": 0.25871480628848076,
+        "average_structure": 0.8341701589524746,
+        "alignment": 0.7708481419831514,
+        "analysis": 0.031574124470353127,
+        "total": 1.9436842259019613
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 450,
+        "selection": "protein and name CA",
+        "n_atoms_aligned_in_memory": 6924
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 181.25390625,
+      "peak_rss_increment_main_mib": 5.65234375,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "rmsf",
+      "io_mode": "memory",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 1,
+      "timings_s": {
+        "imports": 1.8764263708144426,
+        "load_universe": 0.046531083062291145,
+        "preload": 0.26007126830518246,
+        "average_structure": 0.8250617198646069,
+        "alignment": 0.7841781042516232,
+        "analysis": 0.030263738706707954,
+        "total": 1.9468163922429085
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 450,
+        "selection": "protein and name CA",
+        "n_atoms_aligned_in_memory": 6924
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 181.32421875,
+      "peak_rss_increment_main_mib": 5.72265625,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "rmsf",
+      "io_mode": "memory",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 2,
+      "timings_s": {
+        "imports": 1.925893472507596,
+        "load_universe": 0.04733305610716343,
+        "preload": 0.2604230120778084,
+        "average_structure": 0.866718390956521,
+        "alignment": 0.811318339779973,
+        "analysis": 0.03254879079759121,
+        "total": 2.019095066934824
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 450,
+        "selection": "protein and name CA",
+        "n_atoms_aligned_in_memory": 6924
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 180.9140625,
+      "peak_rss_increment_main_mib": 5.3125,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "rmsf",
+      "io_mode": "memory",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 3,
+      "timings_s": {
+        "imports": 1.6682087872177362,
+        "load_universe": 0.04107530787587166,
+        "preload": 0.25610152818262577,
+        "average_structure": 0.8302180431783199,
+        "alignment": 0.7750556170940399,
+        "analysis": 0.03248228132724762,
+        "total": 1.9356454517692327
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 450,
+        "selection": "protein and name CA",
+        "n_atoms_aligned_in_memory": 6924
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 181.4375,
+      "peak_rss_increment_main_mib": 5.8359375,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "rmsf",
+      "io_mode": "memory",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 4,
+      "timings_s": {
+        "imports": 1.7915999423712492,
+        "load_universe": 0.04296369291841984,
+        "preload": 0.25246091187000275,
+        "average_structure": 0.8317551054060459,
+        "alignment": 0.7655433882027864,
+        "analysis": 0.03205416537821293,
+        "total": 1.9255004711449146
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 450,
+        "n_output_values_per_frame": 450,
+        "selection": "protein and name CA",
+        "n_atoms_aligned_in_memory": 6924
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 181.29296875,
+      "peak_rss_increment_main_mib": 5.69140625,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "neq",
+      "io_mode": "disk",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 0,
+      "timings_s": {
+        "imports": 2.2955755926668644,
+        "load_universe": 0.04826254025101662,
+        "setup": 0.011243961751461029,
+        "analysis": 16.0326094198972,
+        "total": 16.09238767810166
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 1799,
+        "n_selected_residues": 450,
+        "n_output_values_per_frame": 450,
+        "selection": "backbone"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 175.6015625,
+      "peak_rss_increment_main_mib": 0.0,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "neq",
+      "io_mode": "disk",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 1,
+      "timings_s": {
+        "imports": 2.258672211319208,
+        "load_universe": 0.04526187479496002,
+        "setup": 0.011068608611822128,
+        "analysis": 16.049547463655472,
+        "total": 16.106147786602378
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 1799,
+        "n_selected_residues": 450,
+        "n_output_values_per_frame": 450,
+        "selection": "backbone"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 175.6015625,
+      "peak_rss_increment_main_mib": 0.0,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "neq",
+      "io_mode": "disk",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 2,
+      "timings_s": {
+        "imports": 2.1885557137429714,
+        "load_universe": 0.04370730370283127,
+        "setup": 0.010966777801513672,
+        "analysis": 16.040592966601253,
+        "total": 16.09554475173354
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 1799,
+        "n_selected_residues": 450,
+        "n_output_values_per_frame": 450,
+        "selection": "backbone"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 175.6015625,
+      "peak_rss_increment_main_mib": 0.0,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "neq",
+      "io_mode": "disk",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 3,
+      "timings_s": {
+        "imports": 2.2461271472275257,
+        "load_universe": 0.04588502272963524,
+        "setup": 0.011320745572447777,
+        "analysis": 16.460832465440035,
+        "total": 16.518315315246582
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 1799,
+        "n_selected_residues": 450,
+        "n_output_values_per_frame": 450,
+        "selection": "backbone"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 175.6015625,
+      "peak_rss_increment_main_mib": 0.0,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "neq",
+      "io_mode": "disk",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 4,
+      "timings_s": {
+        "imports": 2.3811494540423155,
+        "load_universe": 0.04732193425297737,
+        "setup": 0.01091734878718853,
+        "analysis": 16.021543513983488,
+        "total": 16.080060036852956
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 1799,
+        "n_selected_residues": 450,
+        "n_output_values_per_frame": 450,
+        "selection": "backbone"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 175.6015625,
+      "peak_rss_increment_main_mib": 0.0,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "neq",
+      "io_mode": "memory",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 0,
+      "timings_s": {
+        "imports": 2.4478173963725567,
+        "load_universe": 0.04877220839262009,
+        "preload": 0.25331238470971584,
+        "setup": 0.012479139491915703,
+        "analysis": 15.899625515565276,
+        "total": 16.21446216851473
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 1799,
+        "n_selected_residues": 450,
+        "n_output_values_per_frame": 450,
+        "selection": "backbone"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 204.734375,
+      "peak_rss_increment_main_mib": 29.1328125,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "neq",
+      "io_mode": "memory",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 1,
+      "timings_s": {
+        "imports": 2.2266443260014057,
+        "load_universe": 0.048554643988609314,
+        "preload": 0.26228998601436615,
+        "setup": 0.011226758360862732,
+        "analysis": 15.896900460124016,
+        "total": 16.21925430186093
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 1799,
+        "n_selected_residues": 450,
+        "n_output_values_per_frame": 450,
+        "selection": "backbone"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 203.63671875,
+      "peak_rss_increment_main_mib": 28.03515625,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "neq",
+      "io_mode": "memory",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 2,
+      "timings_s": {
+        "imports": 2.4426414631307125,
+        "load_universe": 0.0485292486846447,
+        "preload": 0.2671413719654083,
+        "setup": 0.011109564453363419,
+        "analysis": 16.21003767848015,
+        "total": 16.537094712257385
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 1799,
+        "n_selected_residues": 450,
+        "n_output_values_per_frame": 450,
+        "selection": "backbone"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 204.68359375,
+      "peak_rss_increment_main_mib": 29.08203125,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "neq",
+      "io_mode": "memory",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 3,
+      "timings_s": {
+        "imports": 2.299003517255187,
+        "load_universe": 0.04674491100013256,
+        "preload": 0.2713166531175375,
+        "setup": 0.01344531774520874,
+        "analysis": 16.536758597940207,
+        "total": 16.868572745472193
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 1799,
+        "n_selected_residues": 450,
+        "n_output_values_per_frame": 450,
+        "selection": "backbone"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 204.21484375,
+      "peak_rss_increment_main_mib": 28.61328125,
+      "peak_rss_largest_child_mib": null
+    },
+    {
+      "method": "neq",
+      "io_mode": "memory",
+      "n_workers": null,
+      "start_method": null,
+      "topology": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.pdb",
+      "trajectory": "/home2020/home/ibmp/ereboul/menger_curvature_bench/menger/data/test_data/tubulin_chain_a.dcd",
+      "start": null,
+      "stop": null,
+      "step": null,
+      "rep": 4,
+      "timings_s": {
+        "imports": 2.417465090751648,
+        "load_universe": 0.0482594333589077,
+        "preload": 0.2561343405395746,
+        "setup": 0.011862820014357567,
+        "analysis": 16.18180746398866,
+        "total": 16.498339576646686
+      },
+      "meta": {
+        "n_frames": 1000,
+        "n_selected_atoms": 1799,
+        "n_selected_residues": 450,
+        "n_output_values_per_frame": 450,
+        "selection": "backbone"
+      },
+      "rss_after_imports_mib": 175.6015625,
+      "peak_rss_main_mib": 203.078125,
+      "peak_rss_increment_main_mib": 27.4765625,
+      "peak_rss_largest_child_mib": null
+    }
+  ]
+}

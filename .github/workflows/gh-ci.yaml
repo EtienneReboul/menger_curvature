@@ -34,6 +34,7 @@ jobs:
   main-tests:
     if: "github.repository == 'EtienneReboul/menger_curvature'"
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
     strategy:
         fail-fast: false
         matrix:
@@ -47,7 +48,7 @@ jobs:
               python-version: "3.10"
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
 
     - name: Build information
       run: |
@@ -56,7 +57,7 @@ jobs:
         ulimit -a
 
     - name: Install conda dependencies
-      uses: conda-incubator/setup-miniconda@v3
+      uses: conda-incubator/setup-miniconda@v4
       with:
         python-version: ${{ matrix.python-version }}
         environment-file: devtools/conda-envs/test_env.yaml
@@ -66,7 +67,7 @@ jobs:
         channels: conda-forge
         conda-remove-defaults: true
         activate-environment: menger_curvature-test
-        auto-update-conda: true
+        auto-update-conda: false
         auto-activate: false
         show-channel-urls: true
 
@@ -101,18 +102,19 @@ jobs:
       env:
         MPLBACKEND: Agg
       run: |
-        pytest -n 2 -v --color=yes menger/tests/
+        pytest -n 2 -v --timeout=900 --color=yes menger/tests/
 
 
   coverage:
     if: "github.repository == 'EtienneReboul/menger_curvature' && github.event_name != 'schedule'"
     runs-on: ubuntu-latest
+    timeout-minutes: 45
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
 
     - name: Install conda dependencies
-      uses: conda-incubator/setup-miniconda@v3
+      uses: conda-incubator/setup-miniconda@v4
       with:
         python-version: "3.11"
         environment-file: devtools/conda-envs/test_env.yaml
@@ -122,7 +124,7 @@ jobs:
         channels: conda-forge
         conda-remove-defaults: true
         activate-environment: menger_curvature-test
-        auto-update-conda: true
+        auto-update-conda: false
         auto-activate: false
         show-channel-urls: true
 
@@ -141,7 +143,7 @@ jobs:
         MPLBACKEND: Agg
         NUMBA_DISABLE_JIT: 1
       run: |
-        pytest -n 2 -v --cov=menger --cov-report=xml --color=yes menger/tests/
+        pytest -n 2 -v --timeout=900 --cov=menger --cov-report=xml --color=yes menger/tests/
       shell: bash -l {0}
 
     - name: Upload coverage to Codecov
@@ -158,10 +160,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
 
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: "3.11"
 
@@ -183,10 +185,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
 
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: "3.11"
 
@@ -203,4 +205,4 @@ jobs:
         DISTRIBUTION=$(ls -t1 dist/menger_curvature-*.tar.gz | head -n 1)
         test -n "${DISTRIBUTION}" || { echo "no distribution dist/menger_curvature-*.tar.gz found"; exit 1; }
         echo "twine check $DISTRIBUTION"
-        twine check $DISTRIBUTION
+        twine check "$DISTRIBUTION"

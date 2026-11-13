@@ -1,0 +1,39 @@
+{
+  "args": {
+    "topology": "data/tubulin_PF_alpha1_beta1_without_tau/PDB_protein_ions_ligands_alpha1_beta1_PF_without_tau.pdb",
+    "trajectory": "data/tubulin_PF_alpha1_beta1_without_tau/DCD_protein_ions_ligands_alpha1_beta1_PF_without_tau.dcd",
+    "segid": "PROC",
+    "spacing": 2,
+    "n_workers": 8,
+    "xlabel": "Residues of \u03b1I-tubulin (chain C)",
+    "m_loop": "274-287",
+    "ctt": "436-451",
+    "dssp_npz": "benchmarks/results/tubulin_pf_analysis_18576875/per_chain/C.npz",
+    "bootstrap_block": 10,
+    "n_boot": 10000,
+    "outdir": "benchmarks/results/tubulin_pf_er03_figures_18577588"
+  },
+  "n_frames": 10000,
+  "n_residues": 451,
+  "timings": {
+    "menger_s": 7.734958406537771,
+    "neq_s": 195.40316306054592,
+    "rmsf_s": 283.69518380239606
+  },
+  "axis_limits_raised": {
+    "LF": {
+      "notebook": 0.09,
+      "used": 0.099,
+      "data_max": 0.0939
+    },
+    "RMSF": {
+      "notebook": 22,
+      "used": 23.106,
+      "data_max": 22.0057
+    }
+  },
+  "versions": {
+    "MDAnalysis": "2.11.0",
+    "pbxplore": "1.4.0"
+  }
+}

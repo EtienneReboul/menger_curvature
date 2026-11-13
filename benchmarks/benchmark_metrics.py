@@ -61,6 +61,12 @@ PBX_SELECTION = "backbone"  # PBxplore needs N, CA, C to compute phi/psi
 SPACING = 2
 
 
+def selection(base: str, cfg: dict) -> str:
+    """Combine a method's own selection with the optional ``--restrict`` selection."""
+    restrict = cfg.get("restrict")
+    return f"({restrict}) and ({base})" if restrict else base
+
+
 # --------------------------------------------------------------------------
 # helpers
 # --------------------------------------------------------------------------
@@ -186,7 +192,8 @@ def run_menger(cfg: dict, timings: dict, meta: dict) -> None:
     timings["jit_compile"] = time.perf_counter() - t0
 
     t0 = time.perf_counter()
-    analyser = MengerCurvature(u, select=MENGER_SELECTION, spacing=SPACING)
+    sel = selection(MENGER_SELECTION, cfg)
+    analyser = MengerCurvature(u, select=sel, spacing=SPACING)
     timings["setup"] = time.perf_counter() - t0
 
     t0 = time.perf_counter()
@@ -199,7 +206,7 @@ def run_menger(cfg: dict, timings: dict, meta: dict) -> None:
     meta["n_frames"] = int(analyser.results.curvature_array.shape[0])
     meta["n_selected_atoms"] = int(analyser.atomgroup.n_atoms)
     meta["n_output_values_per_frame"] = int(analyser.results.curvature_array.shape[1])
-    meta["selection"] = MENGER_SELECTION
+    meta["selection"] = sel
 
 
 def run_rmsf(cfg: dict, timings: dict, meta: dict) -> None:
@@ -207,28 +214,30 @@ def run_rmsf(cfg: dict, timings: dict, meta: dict) -> None:
 
     u, _, run_kwargs = _load(cfg, timings)
 
+    align_sel = selection(ALIGN_SELECTION, cfg)
+    rmsf_sel = selection(RMSF_SELECTION, cfg)
     t0 = time.perf_counter()
-    average = align.AverageStructure(u, u, select=ALIGN_SELECTION, ref_frame=0).run(
+    average = align.AverageStructure(u, u, select=align_sel, ref_frame=0).run(
         **run_kwargs
     )
     timings["average_structure"] = time.perf_counter() - t0
 
     t0 = time.perf_counter()
     align.AlignTraj(
-        u, average.results.universe, select=ALIGN_SELECTION, in_memory=True
+        u, average.results.universe, select=align_sel, in_memory=True
     ).run(**run_kwargs)
     timings["alignment"] = time.perf_counter() - t0
 
-    # after in-memory alignment the trajectory only holds the analysed frames
-    c_alphas = u.select_atoms(RMSF_SELECTION)
+    c_alphas = u.select_atoms(rmsf_sel)
     t0 = time.perf_counter()
-    rmsf = rms.RMSF(c_alphas).run()
+    # AlignTraj(in_memory=True) keeps every frame, so the frame range is applied again here
+    rmsf = rms.RMSF(c_alphas).run(**run_kwargs)
     timings["analysis"] = time.perf_counter() - t0
 
     meta["n_frames"] = int(rmsf.n_frames)
     meta["n_selected_atoms"] = int(c_alphas.n_atoms)
     meta["n_output_values_per_frame"] = int(c_alphas.n_atoms)
-    meta["selection"] = RMSF_SELECTION
+    meta["selection"] = rmsf_sel
     meta["n_atoms_aligned_in_memory"] = int(u.atoms.n_atoms)
 
 
@@ -241,26 +250,27 @@ def run_neq(cfg: dict, timings: dict, meta: dict) -> None:
     # Same steps as pbxplore.chains_from_trajectory, minus its progress printing,
     # so that it can share the universe/frames/I-O mode used by the other methods.
     t0 = time.perf_counter()
-    selection = u.select_atoms(PBX_SELECTION)
+    pbx_sel = selection(PBX_SELECTION, cfg)
+    atoms = u.select_atoms(pbx_sel)
     structure = Chain()
-    for atm in selection:
+    for atm in atoms:
         structure.add_atom(Atom.read_from_xtc(atm))
     timings["setup"] = time.perf_counter() - t0
 
     t0 = time.perf_counter()
     sequences = []
     for _ in u.trajectory[frames]:
-        structure.set_coordinates(selection.positions)
+        structure.set_coordinates(atoms.positions)
         sequences.append(pbx.assign(structure.get_phi_psi_angles()))
     count_matrix = pbx.analysis.count_matrix(sequences)
     neq = pbx.analysis.compute_neq(count_matrix)
     timings["analysis"] = time.perf_counter() - t0
 
     meta["n_frames"] = len(sequences)
-    meta["n_selected_atoms"] = int(selection.n_atoms)
-    meta["n_selected_residues"] = int(selection.residues.n_residues)
+    meta["n_selected_atoms"] = int(atoms.n_atoms)
+    meta["n_selected_residues"] = int(atoms.residues.n_residues)
     meta["n_output_values_per_frame"] = int(len(neq))
-    meta["selection"] = PBX_SELECTION
+    meta["selection"] = pbx_sel
 
 
 def run_rmsf_split(cfg: dict, timings: dict, meta: dict) -> None:
@@ -274,7 +284,8 @@ def run_rmsf_split(cfg: dict, timings: dict, meta: dict) -> None:
     u, _, run_kwargs = _load(cfg, timings)
     if cfg["n_workers"] is not None:
         run_kwargs = {**run_kwargs, "backend": cfg["backend"], "n_workers": cfg["n_workers"]}
-    c_alphas = u.select_atoms(RMSF_SELECTION)
+    rmsf_sel = selection(RMSF_SELECTION, cfg)
+    c_alphas = u.select_atoms(rmsf_sel)
 
     t0 = time.perf_counter()
     average = AverageStructureCA(c_alphas, ref_frame=0).run(**run_kwargs)
@@ -288,7 +299,7 @@ def run_rmsf_split(cfg: dict, timings: dict, meta: dict) -> None:
     meta["n_frames"] = int(rmsf.n_frames)
     meta["n_selected_atoms"] = int(c_alphas.n_atoms)
     meta["n_output_values_per_frame"] = int(len(rmsf.results.rmsf))
-    meta["selection"] = RMSF_SELECTION
+    meta["selection"] = rmsf_sel
 
 
 METHODS = {
@@ -421,6 +432,9 @@ def markdown_report(env: dict, runs: list[dict], args) -> str:
         "peak increment main (MiB) | peak RSS largest worker (MiB) |",
         "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|",
     ]
+    selections = sorted({(r["method"], r["meta"].get("selection", "")) for r in runs})
+    sel_lines = ["", "Selections used: " + "; ".join(f"{m}: `{s}`" for m, s in selections), ""]
+    lines[-2:-2] = sel_lines
     groups: dict = {}
     for r in runs:
         key = (r["method"], r.get("backend"), r.get("start_method_effective"),
@@ -474,6 +488,9 @@ def main() -> None:
     parser.add_argument("--start", type=int, default=None)
     parser.add_argument("--stop", type=int, default=None)
     parser.add_argument("--step", type=int, default=None)
+    parser.add_argument("--restrict", default=None,
+                        help="extra selection combined (AND) with every method's own selection, "
+                             "e.g. 'segid PROC' to analyse a single chain of a multi-chain system")
     parser.add_argument("--outdir", default="benchmarks/results")
     args = parser.parse_args()
 
@@ -520,6 +537,7 @@ def main() -> None:
                 "start": args.start,
                 "stop": args.stop,
                 "step": args.step,
+                "restrict": args.restrict,
             })
 
     runs = []

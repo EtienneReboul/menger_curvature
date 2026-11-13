@@ -114,3 +114,5 @@ notebooks/.data/
 # claude report for benchmark
 benchmarks/~$aude_opus_5.5_effort_medium_report_benchmark.docx
 benchmarks/claude_opus_5.5_effort_medium_report_benchmark.docx
+# per-frame arrays from benchmarks/tubulin_pf_analysis.py (reproducible, ~16 MB each)
+benchmarks/**/*.npz

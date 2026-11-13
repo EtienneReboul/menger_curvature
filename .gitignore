@@ -110,3 +110,7 @@ poetry.lock
 
 # pooch cache
 notebooks/.data/
+
+# claude report for benchmark
+benchmarks/~$aude_opus_5.5_effort_medium_report_benchmark.docx
+benchmarks/claude_opus_5.5_effort_medium_report_benchmark.docx

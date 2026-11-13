@@ -107,6 +107,41 @@ sums. Almost all of the pipeline's cost comes from the two alignment passes. The
 Menger curvature and Neq are both invariant to rotation and translation, so neither
 needs an alignment.
 
+**Parallel RMSF.** In MDAnalysis 2.10, `AverageStructure`, `AlignTraj` and `RMSF`
+support only the serial backend. To compare RMSF with the parallel Menger
+curvature on equal terms, [`parallel_rmsf.py`](parallel_rmsf.py) implements the
+same pipeline as two passes that work with MDAnalysis's `multiprocessing` and
+`dask` backends:
+
+1. `AverageStructureCA` fits every frame onto frame 0 and sums the fitted Cα
+   coordinates. The parent then adds up the per-worker sums.
+2. `AlignedRMSF` fits every frame onto the average and keeps a running mean and
+   variance (Welford). The parent merges the per-worker statistics with Chan's
+   formula.
+
+The fit is the same as in MDAnalysis: unweighted centre of geometry plus QCP
+rotation. Over the whole tubulin trajectory, the RMSF agrees with the MDAnalysis
+pipeline to within 6 × 10⁻⁷ Å, for every backend and start method.
+
+In the second pass, alignment and RMSF are computed together in one loop over the
+frames, so their costs can't be separated; that pass is reported as `analysis`.
+The split pipeline also differs from the MDAnalysis one in two ways:
+
+* it transforms only the Cα atoms, not the whole system;
+* it keeps no aligned trajectory in memory, so its memory is O(N_res) instead of
+  O(N_f · N_at).
+
+To separate the algorithmic gain from the parallel speed-up, it is benchmarked
+both serially (`rmsf_split_serial`) and in parallel (`rmsf_split_parallel`).
+Unlike the Menger curvature, it uses no Numba. With `spawn` or `forkserver`, each
+worker only has to start an interpreter and import MDAnalysis, and it pays this
+once per pass.
+
+```bash
+python benchmarks/benchmark_metrics.py --methods rmsf rmsf_split_serial rmsf_split_parallel \
+    --io-modes disk --backends multiprocessing dask --start-methods fork spawn forkserver
+```
+
 **g. Memory.** In each repetition, the script measures the peak resident set size
 (`ru_maxrss`) of the main process and of the largest worker process. The
 `peak increment` column subtracts the RSS measured after the imports. The expected
@@ -124,6 +159,7 @@ scaling uses the following symbols:
 | Menger, parallel | the same array, plus a transient 2× copy while the per-worker blocks are stacked, plus W worker processes each holding an interpreter, Numba, MDAnalysis and a trajectory reader | O(N_f · N_res) + W × (per-worker RSS: about 230 MiB with spawn or forkserver, 50–150 MiB with fork, where pages are shared with the parent) |
 | RMSF pipeline | the in-memory aligned trajectory of **all atoms**, N_f × N_at × 3 × 4 B | O(N_f · N_at); 79 MiB for tubulin, about 1.5 GiB for 20000 frames of a 6600-atom system |
 | RMSF alone | running mean and variance of the selection | O(N_res), independent of N_f |
+| split RMSF (`parallel_rmsf.py`) | per-worker Welford accumulators for the selection, plus W worker processes | O(N_res) + W × per-worker RSS |
 | Neq | N_f PB strings of length N_res, plus a 16 × N_res count matrix | O(N_f · N_res) |
 
 In `memory` mode, every method also holds the whole trajectory in RAM

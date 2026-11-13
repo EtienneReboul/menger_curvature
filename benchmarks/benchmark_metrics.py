@@ -263,18 +263,51 @@ def run_neq(cfg: dict, timings: dict, meta: dict) -> None:
     meta["selection"] = PBX_SELECTION
 
 
+def run_rmsf_split(cfg: dict, timings: dict, meta: dict) -> None:
+    """RMSF pipeline as two parallelisable passes (see parallel_rmsf.py).
+
+    Pass 1 = average structure; pass 2 = alignment and RMSF fused in a single
+    pass, so their costs cannot be separated (timed as ``align_rmsf``).
+    """
+    from parallel_rmsf import AlignedRMSF, AverageStructureCA
+
+    u, _, run_kwargs = _load(cfg, timings)
+    if cfg["n_workers"] is not None:
+        run_kwargs = {**run_kwargs, "backend": cfg["backend"], "n_workers": cfg["n_workers"]}
+    c_alphas = u.select_atoms(RMSF_SELECTION)
+
+    t0 = time.perf_counter()
+    average = AverageStructureCA(c_alphas, ref_frame=0).run(**run_kwargs)
+    timings["average_structure"] = time.perf_counter() - t0
+
+    t0 = time.perf_counter()
+    rmsf = AlignedRMSF(c_alphas, average.results.positions).run(**run_kwargs)
+    timings["align_rmsf"] = time.perf_counter() - t0
+    timings["analysis"] = timings["align_rmsf"]
+
+    meta["n_frames"] = int(rmsf.n_frames)
+    meta["n_selected_atoms"] = int(c_alphas.n_atoms)
+    meta["n_output_values_per_frame"] = int(len(rmsf.results.rmsf))
+    meta["selection"] = RMSF_SELECTION
+
+
 METHODS = {
     "menger_serial": run_menger,
     "menger_parallel": run_menger,
     "rmsf": run_rmsf,
+    "rmsf_split_serial": run_rmsf_split,
+    "rmsf_split_parallel": run_rmsf_split,
     "neq": run_neq,
 }
+PARALLEL_METHODS = {"menger_parallel", "rmsf_split_parallel"}
 
 
 IMPORTS = {
     "menger_serial": ["MDAnalysis", "menger.analysis.mengercurvature"],
     "menger_parallel": ["MDAnalysis", "menger.analysis.mengercurvature"],
     "rmsf": ["MDAnalysis", "MDAnalysis.analysis.align", "MDAnalysis.analysis.rms"],
+    "rmsf_split_serial": ["MDAnalysis", "parallel_rmsf"],
+    "rmsf_split_parallel": ["MDAnalysis", "parallel_rmsf"],
     "neq": ["MDAnalysis", "pbxplore", "pbxplore.structure.structure"],
 }
 
@@ -373,6 +406,7 @@ def markdown_report(env: dict, runs: list[dict], args) -> str:
         "Times in seconds, mean ± SD (sample SD, n−1).",
         "",
         "`total` = load + preload + JIT + setup + avg. struct. + alignment + analysis "
+        "(for rmsf_split_*, `analysis` is the fused alignment + RMSF pass) "
         "(library imports excluded). Peak RSS is the maximum over repetitions; "
         "\"increment\" is the peak above the RSS measured right after imports. "
         "Worker RSS is not measurable with forkserver (workers are not children of the "
@@ -425,13 +459,13 @@ def main() -> None:
     parser.add_argument("--trajectory", help="trajectory file (default: tubulin chain A test data)")
     parser.add_argument("--reps", type=int, default=5, help="independent timed repetitions")
     parser.add_argument("--workers", type=int, nargs="+", default=[2, 4, 8],
-                        help="worker counts for the parallel Menger benchmark")
+                        help="worker counts for the parallel benchmarks (menger_parallel, rmsf_split_parallel)")
     parser.add_argument("--backends", nargs="+", default=["multiprocessing"],
                         choices=["multiprocessing", "dask"],
-                        help="MDAnalysis parallel backends for the parallel Menger benchmark")
+                        help="MDAnalysis parallel backends for the parallel benchmarks (menger_parallel, rmsf_split_parallel)")
     parser.add_argument("--start-methods", nargs="+", default=[None],
                         choices=["fork", "spawn", "forkserver"],
-                        help="multiprocessing start methods for the parallel Menger benchmark "
+                        help="multiprocessing start methods for the parallel benchmarks (menger_parallel, rmsf_split_parallel) "
                              "(default: each backend's own default, i.e. the platform default for "
                              "multiprocessing and spawn for dask)")
     parser.add_argument("--methods", nargs="+", default=list(METHODS), choices=list(METHODS))
@@ -468,10 +502,10 @@ def main() -> None:
     for method in methods:
         # parallel runs stream from disk: with the in-memory reader every worker
         # would receive a pickled copy of the whole trajectory.
-        io_modes = ["disk"] if method == "menger_parallel" else args.io_modes
-        worker_counts = args.workers if method == "menger_parallel" else [None]
-        start_methods = args.start_methods if method == "menger_parallel" else [None]
-        backends = args.backends if method == "menger_parallel" else [None]
+        io_modes = ["disk"] if method in PARALLEL_METHODS else args.io_modes
+        worker_counts = args.workers if method in PARALLEL_METHODS else [None]
+        start_methods = args.start_methods if method in PARALLEL_METHODS else [None]
+        backends = args.backends if method in PARALLEL_METHODS else [None]
         for backend, start_method, io_mode, n_workers in itertools.product(
             backends, start_methods, io_modes, worker_counts
         ):
